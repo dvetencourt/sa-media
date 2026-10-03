@@ -1,0 +1,3 @@
+<!doctype html><meta charset="utf-8"><script>
+addEventListener('message',async function(e){try{var r=await fetch(e.data.url);var b=await r.arrayBuffer();e.source.postMessage({ok:true,buf:b,name:e.data.name,type:'video/mp4'},e.origin,[b]);}catch(err){e.source.postMessage({ok:false,err:String(err)},e.origin);}});
+</script>
