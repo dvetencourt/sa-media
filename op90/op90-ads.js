@@ -5,6 +5,79 @@
   var HOOK='https://services.leadconnectorhq.com/hooks/IawpuuJf69E9JJDhPPZi/webhook-trigger/d648fb93-2451-44b8-914a-81ac05649b29', datos=null, OPTIN='no'==='si';
   try{datos=JSON.parse(localStorage.getItem('op90_datos')||'null');}catch(e){}
   var vid=r.querySelector('video'), modal=document.getElementById('op90-modal'), tapa=document.getElementById('op90-tapa');
+// Local candidate. No network, Meta events or production installation by default.
+function createRetention(emit = () => {}) {
+  const ranges = [], sent = new Set();
+  let previous = null;
+  function covered() { return ranges.reduce((n, r) => n + r[1] - r[0], 0); }
+  function add(start, end) {
+    ranges.push([start, end]); ranges.sort((a, b) => a[0] - b[0]);
+    for (let i = 1; i < ranges.length;) {
+      if (ranges[i][0] <= ranges[i - 1][1]) {
+        ranges[i - 1][1] = Math.max(ranges[i - 1][1], ranges[i][1]); ranges.splice(i, 1);
+      } else i++;
+    }
+  }
+  function once(name, data) { if (!sent.has(name)) { sent.add(name); emit(name, data); } }
+  function sample(s) {
+    const valid = Number.isFinite(s.time) && Number.isFinite(s.wall) && s.time >= 0;
+    const active = valid && s.full === true && s.visible === true && !s.paused && !s.seeking;
+    if (active && previous) {
+      const dt = s.time - previous.time, elapsed = (s.wall - previous.wall) / 1000;
+      const rate = Number.isFinite(s.rate) && s.rate > 0 ? s.rate : 1;
+      if (elapsed > 0 && elapsed <= 2 && dt > 0 && dt <= elapsed * rate + 0.35) {
+        const end = Number.isFinite(s.duration) ? Math.min(s.time, s.duration) : s.time;
+        if (end > previous.time) add(previous.time, end);
+        const data = { unique_media_seconds: Math.round(covered() * 10) / 10 };
+        once('OP90_VSLPlayReal', data);
+        if (Number.isFinite(s.duration) && s.duration > 0) {
+          for (const pct of [25, 50, 75, 90]) {
+            if (covered() / s.duration >= pct / 100) once('OP90_VSLWatched' + pct, data);
+          }
+          if (s.ended === true && covered() / s.duration >= 0.95) once('OP90_VSLComplete', data);
+        }
+      }
+    }
+    previous = active ? { time: s.time, wall: s.wall } : null;
+    return { uniqueMediaSeconds: covered(), events: [...sent] };
+  }
+  return { sample, resetBoundary() { previous = null; } };
+}
+
+// Attach only after the configured full VSL is selected, through an approved sink.
+// No URL, query strings, contact details or conversion events in this module.
+function attachRetention(video, document, emit, isFullVsl) {
+  const tracker = createRetention(emit), handlers = [];
+  function sample() { return tracker.sample({
+    time: video.currentTime, duration: video.duration, wall: Date.now(),
+    paused: video.paused, seeking: video.seeking, rate: video.playbackRate,
+    visible: document.visibilityState === 'visible', full: isFullVsl(video), ended: video.ended
+  }); }
+  for (const event of ['timeupdate', 'ended']) {
+    video.addEventListener(event, sample); handlers.push([video, event, sample]);
+  }
+  for (const event of ['seeking', 'seeked', 'pause', 'waiting', 'loadstart', 'ratechange']) {
+    video.addEventListener(event, tracker.resetBoundary); handlers.push([video, event, tracker.resetBoundary]);
+  }
+  document.addEventListener('visibilitychange', tracker.resetBoundary);
+  handlers.push([document, 'visibilitychange', tracker.resetBoundary]);
+  return () => handlers.forEach(([target, event, fn]) => target.removeEventListener(event, fn));
+}
+
+
+  // OP90 measurement v1: real full-VSL coverage, never preview or conversion.
+  if(vid && 'ads' === 'ads') {
+    var measureQs = new URLSearchParams(location.search);
+    var measureCreative = measureQs.get('utm_content');
+    var measureAd = measureQs.get('ad_id') || '';
+    var measureTags = {variante:'ads',vsl_version:'v3',measurement_version:'retention-v1',creative_id: /^(c3_problema_concreto_5oct|c4_trailer_ejecucion_5oct)$/.test(measureCreative||'') ? measureCreative : 'control_or_unknown'};
+    if(/^\d{5,25}$/.test(measureAd)) measureTags.ad_id=measureAd;
+    attachRetention(vid,document,function(name,data){ev(name,Object.assign({},measureTags,data));},function(v){
+      var full=v.getAttribute('data-full');
+      return !!full && v.loop===false && (v.currentSrc===full || v.src===full);
+    });
+  }
+
   function abrir(d,sonido){datos=d; if(tapa) tapa.remove(); var c=document.getElementById('op90-cta'); if(c) c.remove(); modal.classList.add('oculto'); document.getElementById('op90-resto').classList.remove('oculto');
     var f=r.querySelector('.cal iframe'); if(f&&d){var q='?first_name='+encodeURIComponent(d.nombre)+'&email='+encodeURIComponent(d.correo)+'&phone='+encodeURIComponent(d.whatsapp); f.setAttribute('data-src',f.getAttribute('data-src').split('?')[0]+q);}
     if(vid){vid.loop=false; vid.controls=true; if(vid.getAttribute('data-full')&&vid.src.indexOf('preview')>-1){vid.src=vid.getAttribute('data-full');} if(sonido){vid.currentTime=0; vid.muted=false; var pr=vid.play(); if(pr&&pr.catch) pr.catch(function(){vid.muted=true;vid.play();});}}
