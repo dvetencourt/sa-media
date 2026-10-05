@@ -93,12 +93,12 @@ function attachRetention(video, document, emit, isFullVsl) {
     if(!n){err.textContent='Escribe tu nombre.';return;} if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)){err.textContent='Revisa tu correo.';return;}
     if(w.replace(/\D/g,'').length<8){err.textContent='Escribe tu WhatsApp con c&#243;digo de pa&#237;s.';return;} if(w[0]!=='+') w='+'+w;
     err.textContent=''; var qs=new URLSearchParams(location.search);
-    var d={nombre:n,correo:e,whatsapp:w,variante:'ads',utm_source:qs.get('utm_source')||'meta',utm_medium:qs.get('utm_medium')||'paid',utm_campaign:qs.get('utm_campaign')||'',utm_content:qs.get('utm_content')||'',pagina:location.href};
+    var d={nombre:n,correo:e,whatsapp:w,variante:'ads',utm_source:qs.get('utm_source')||'',utm_medium:qs.get('utm_medium')||'',utm_campaign:qs.get('utm_campaign')||'',utm_content:qs.get('utm_content')||'',pagina:location.href};
     try{fetch(HOOK,{method:'POST',mode:'no-cors',body:new URLSearchParams(d)});}catch(x){}
     try{localStorage.setItem('op90_datos',JSON.stringify(d));}catch(x){}
     try{if(window.fbq){fbq('track','ViewContent',{content_name:'Operador 90 ads opt-in'});fbq('trackCustom','OP90_Optin',{content_name:'Operador 90 ads'});}}catch(x){}
     abrir(d,true); });
-  var resp={};
+  var resp={}, leadEmitted=false;
   function ver(id){var e=document.getElementById(id); e.classList.remove('oculto'); try{e.scrollIntoView({behavior:'smooth',block:'start'});}catch(x){}}
   [].slice.call(r.querySelectorAll('.bt[data-p]')).forEach(function(b){
     b.addEventListener('click',function(){
@@ -108,7 +108,7 @@ function attachRetention(video, document, emit, isFullVsl) {
       if(p==='1'){ ver('op90-p2'); }
       if(p==='2'){
         document.getElementById('op90-agenda').classList.add('oculto'); document.getElementById('op90-salida').classList.add('oculto');
-        if(v==='si'){ var fc=r.querySelector('.cal iframe'); if(fc&&!fc.src){var bookingURL=new URL(fc.getAttribute('data-src'));bookingURL.searchParams.set('utm_source','meta');bookingURL.searchParams.set('utm_medium','paid');bookingURL.searchParams.set('utm_campaign','op90_libertad_b');var paidParams=new URLSearchParams(window.location.search);var bContent=paidParams.get('utm_content');if(/^(b1_historia_libertad_5oct|b2_desde_donde_estes_5oct)$/.test(bContent||''))bookingURL.searchParams.set('utm_content',bContent);var bAd=paidParams.get('ad_id');if(/^\d{5,25}$/.test(bAd||''))bookingURL.searchParams.set('ad_id',bAd);fc.src=bookingURL.toString(); var e2=document.createElement('script'); e2.src='https://link.msgsndr.com/js/form_embed.js'; document.body.appendChild(e2);} ver('op90-agenda'); ev('OP90_Califica',{negocio:resp.p1,variante:'ads'}); try{if(window.fbq)fbq('track','Lead',{content_name:'Operador 90 B libertad califica',funnel_variant:'b_libertad_5oct'});}catch(x){} }
+        if(v==='si'){ var fc=r.querySelector('.cal iframe'); if(fc&&!fc.src){var bookingURL=new URL(fc.getAttribute('data-src'));var paidParams=new URLSearchParams(window.location.search);['utm_source','utm_medium','utm_campaign','utm_content','utm_term','ad_id'].forEach(function(key){var value=paidParams.get(key);if(value&&value.length<=256)bookingURL.searchParams.set(key,value);});fc.src=bookingURL.toString(); var e2=document.createElement('script'); e2.src='https://link.msgsndr.com/js/form_embed.js'; document.body.appendChild(e2);} ver('op90-agenda'); ev('OP90_Califica',{negocio:resp.p1,variante:'ads'}); try{if(window.fbq&&!leadEmitted){leadEmitted=true;fbq('track','Lead',{content_name:'Operador 90 B libertad califica',funnel_variant:'b_libertad_5oct'});}}catch(x){} }
         else { ver('op90-salida'); ev('OP90_NoCalifica',{negocio:resp.p1,variante:'ads'}); }
       }
     });
