@@ -1,0 +1,116 @@
+(function(){var h=document.getElementById('op90host')||document.body;var d=document.createElement('div');d.innerHTML="<!-- Operador 90 &#183; VSL + 2 preguntas + agenda &#183; variante: ads\n     Generado por armar.py. No editar a mano. Sin precio. Sin promesas de ingresos. -->\n<style>\n#op90{--papel:#fffaf2;--blanco:#fff;--tinta:#202329;--cobalto:#234ddb;--coral:#bc442c;--azulp:#dce5ff;--coralp:#ffe3d9;--gris:#505966;font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,\"Segoe UI\",Arial,sans-serif;background:var(--papel);color:var(--tinta);width:var(--op90vw,100vw);position:relative;left:50%;margin-left:calc(var(--op90vw,100vw) * -0.5);overflow-x:hidden}\n#op90 *{box-sizing:border-box}\n#op90 .wrap{max-width:760px;margin:0 auto;padding:18px 16px 64px}\n#op90 .top{display:flex;justify-content:flex-end;margin-bottom:18px}\n#op90 .brand{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:6px 12px 6px 6px;border:2px solid var(--tinta);background:var(--blanco);box-shadow:4px 4px 0 var(--tinta);text-decoration:none;color:var(--tinta);font:700 11px/1.05 \"Courier New\",monospace;text-transform:uppercase;letter-spacing:.04em}\n#op90 .brand-mark{width:34px;height:34px;display:grid;place-items:center;border:2px solid var(--tinta);background:var(--coral);color:#fff;font:700 14px \"Courier New\",monospace}\n#op90 .ceja{display:inline-block;font:700 12px \"Courier New\",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--coral)}\n#op90 h1{font-size:clamp(34px,6vw,54px);line-height:1.05;margin:10px 0 12px;text-wrap:balance}\n#op90 .sub{font-size:19px;line-height:1.5;color:var(--gris);margin:0 0 22px}\n#op90 .video{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#000;border:3px solid var(--tinta);box-shadow:8px 8px 0 var(--azulp)}\n#op90 .video iframe,#op90 .video video{position:absolute;inset:0;width:100%;height:100%;border:0}\n#op90 .tapa{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(32,35,41,.25);border:0;width:100%;cursor:pointer;padding:16px}\n#op90 .tapa span{display:inline-flex;align-items:center;gap:10px;background:var(--cobalto);color:#fff;font-weight:700;font-size:18px;padding:14px 20px;border:2px solid var(--tinta);box-shadow:5px 5px 0 var(--tinta)}\n#op90 .modal{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(32,35,41,.6)}\n#op90 .modal .optin{margin:0;width:100%;max-width:440px;max-height:92vh;overflow:auto}\n#op90 .optin .cerrar{all:unset;float:right;color:#fff;font-size:18px;line-height:1;cursor:pointer;padding:0 4px}\n#op90 .panel,#op90 .paso,#op90 .optin{margin-top:28px;background:var(--blanco);border:2px solid var(--tinta);box-shadow:6px 6px 0 var(--tinta)}\n#op90 .barra{background:var(--cobalto);color:#fff;font:700 12px \"Courier New\",monospace;letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;border-bottom:2px solid var(--tinta)}\n#op90 .cuerpo{padding:20px 18px}\n#op90 .filtro{margin:28px 0 0;padding:14px 16px;border:2px solid var(--tinta);border-left:8px solid var(--coral);background:var(--coralp);font-size:17px;line-height:1.5}\n#op90 .paso h2,#op90 .salida h2{font-size:24px;margin:0 0 16px;line-height:1.25}\n#op90 .bts{display:flex;gap:12px;flex-wrap:wrap}\n#op90 .bt{flex:1 1 150px;min-height:54px;border:2px solid var(--tinta);background:var(--blanco);color:var(--tinta);font-size:17px;font-weight:700;cursor:pointer;box-shadow:4px 4px 0 var(--tinta);transition:transform .15s ease-out,box-shadow .15s ease-out}\n#op90 .bt.si{background:var(--cobalto);color:#fff}\n#op90 .bt:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--tinta)}\n#op90 .bt[aria-pressed=\"true\"]{outline:3px solid var(--coral);outline-offset:3px}\n#op90 .optin label{display:block;font:700 12px \"Courier New\",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--gris);margin:14px 0 6px}\n#op90 .optin input{width:100%;min-height:52px;border:2px solid var(--tinta);background:var(--papel);color:var(--tinta);font-size:17px;padding:0 14px;border-radius:0}\n#op90 .optin input:focus{outline:3px solid var(--azulp);outline-offset:0}\n#op90 .optin button{margin-top:18px;width:100%;min-height:56px;border:2px solid var(--tinta);background:var(--cobalto);color:#fff;font-size:18px;font-weight:700;cursor:pointer;box-shadow:5px 5px 0 var(--tinta)}\n#op90 .optin .err{color:var(--coral);font-size:15px;min-height:18px;margin:10px 0 0}\n#op90 .optin .chico{font-size:14px;line-height:1.5;color:var(--gris);margin:12px 0 0;text-align:center}\n#op90 .cta-ver{display:block;width:100%;margin-top:22px;min-height:58px;border:2px solid var(--tinta);background:var(--cobalto);color:#fff;font-size:19px;font-weight:700;cursor:pointer;box-shadow:5px 5px 0 var(--tinta)}\n#op90 .oculto{display:none}\n#op90 .cal iframe{width:100%;min-height:920px;border:0;display:block;background:#fff}\n#op90 .garantia{margin-top:16px;font-size:15px;color:var(--gris);text-align:center}\n#op90 .salida p{font-size:18px;line-height:1.55;margin:0 0 16px}\n#op90 .salida a{display:inline-block;padding:15px 20px;border:2px solid var(--tinta);background:var(--cobalto);color:#fff;text-decoration:none;font-weight:700;box-shadow:4px 4px 0 var(--tinta)}\n#op90 .aviso{margin-top:32px;font-size:13px;color:var(--gris);text-align:center;line-height:1.5}\n@media (prefers-reduced-motion:reduce){#op90 .bt{transition:none}}\n</style>\n<div id=\"op90\"><div class=\"wrap\">\n  <div class=\"top\"><a class=\"brand\" href=\"https://solucionesartificiales.com/\" aria-label=\"Soluciones Artificiales, ir al inicio\"><span class=\"brand-mark\" aria-hidden=\"true\">SA</span><span>Soluciones<br>Artificiales</span></a></div>\n  <span class=\"ceja\">Operador 90 &#183; Soluciones Artificiales</span>\n  <h1>Construye un negocio que puedas operar desde donde estés</h1>\n  <p class=\"sub\">Aprende a conectar con negocios y ofrecerles servicios con IA, aunque no estén en tu misma ciudad. Empieza con mis agentes ya hechos y mi equipo al lado, sin saber programar.</p>\n  <div class=\"video\" id=\"op90-video\"><video src=\"https://assets.cdn.filesafe.space/IawpuuJf69E9JJDhPPZi/media/6ac3ec50b12649a512291e9d.mp4\" data-full=\"https://assets.cdn.filesafe.space/IawpuuJf69E9JJDhPPZi/media/6ac3ec50b12649a512291e9d.mp4\" poster=\"https://dvetencourt.github.io/sa-media/op90/op90-b-libertad-poster.jpg\" muted playsinline preload=\"metadata\"></video><button type=\"button\" class=\"tapa\" id=\"op90-tapa\" aria-label=\"Ver el video con audio\"><span>&#9654; Toca para ver con audio</span></button></div>\n  <button type=\"button\" class=\"cta-ver\" id=\"op90-cta\">Ver el video completo</button>\n  <div class=\"modal oculto\" id=\"op90-modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"op90-mt\"><form class=\"optin\" id=\"op90-optin\" novalidate><div class=\"barra\" id=\"op90-mt\">Ingresa tus datos <button type=\"button\" class=\"cerrar\" id=\"op90-cerrar\" aria-label=\"Cerrar\">&#10005;</button></div><div class=\"cuerpo\">\n    <label for=\"op90-n\">Tu nombre</label><input id=\"op90-n\" autocomplete=\"given-name\" required>\n    <label for=\"op90-e\">Tu correo</label><input id=\"op90-e\" type=\"email\" autocomplete=\"email\" required>\n    <label for=\"op90-w\">Tu WhatsApp (con c&#243;digo de pa&#237;s)</label><input id=\"op90-w\" type=\"tel\" autocomplete=\"tel\" placeholder=\"+1 305 000 0000\" required>\n    <p class=\"err\" id=\"op90-err\"></p>\n    <button type=\"submit\">Continuar</button>\n    <p class=\"chico\">Sin costo. Solo para quien est&#225; decidido a invertir tiempo y recursos en esto.</p></div>\n  </form></div>\n  <div id=\"op90-resto\" class=\"oculto\">\n  <div class=\"filtro\">Esto no es para todos. Agenda solo si est&#225;s decidido a invertir tiempo y recursos en aprender a vender e instalar agentes de IA. Si solo tienes curiosidad, mejor no sigas.</div>\n\n  <div class=\"paso\" id=\"op90-p1\"><div class=\"barra\">Pregunta 1 de 2</div><div class=\"cuerpo\">\n    <h2>&#191;Ya tienes un negocio funcionando?</h2>\n    <div class=\"bts\"><button class=\"bt si\" type=\"button\" data-p=\"1\" data-v=\"si\">S&#237;, tengo negocio</button><button class=\"bt\" type=\"button\" data-p=\"1\" data-v=\"no\">No, quiero empezar</button></div>\n  </div></div>\n\n  <div class=\"paso oculto\" id=\"op90-p2\"><div class=\"barra\">Pregunta 2 de 2</div><div class=\"cuerpo\">\n    <h2>La inversi&#243;n en Operador 90 empieza en USD 2.000 y puedes pagarla en cuotas (compra ahora, paga despu&#233;s). Si te hace sentido, &#191;puedes invertir en los pr&#243;ximos 30 d&#237;as?</h2>\n    <div class=\"bts\"><button class=\"bt si\" type=\"button\" data-p=\"2\" data-v=\"si\">S&#237;, puedo</button><button class=\"bt\" type=\"button\" data-p=\"2\" data-v=\"no\">Ahora no</button></div>\n  </div></div>\n\n  <div class=\"paso oculto\" id=\"op90-agenda\"><div class=\"barra\">&#218;ltimo paso</div><div class=\"cuerpo\">\n    <h2>Elige el d&#237;a y la hora de tu llamada</h2>\n    <div class=\"cal\"><iframe data-src=\"https://api.leadconnectorhq.com/widget/booking/j5jRGE57xpyhMZtXuix7\" scrolling=\"no\" id=\"j5jRGE57xpyhMZtXuix7_op90\" title=\"Agenda\"></iframe></div>\n    <p class=\"garantia\">Desde el d&#237;a 1 trabajas con mis agentes ya hechos. Y si en 6 meses no consigues tu primer cliente, te devolvemos tu dinero.</p>\n  </div></div>\n\n  <div class=\"paso oculto salida\" id=\"op90-salida\"><div class=\"barra\">Otra ruta</div><div class=\"cuerpo\">\n    <h2>Te entiendo. Empieza por aqu&#237;.</h2>\n    <p>Mira la clase completa: ah&#237; te muestro c&#243;mo funciona todo, paso a paso. Cuando est&#233;s listo, agendas desde esa misma p&#225;gina.</p>\n    <a href=\"https://solucionesartificiales.com/gracias?utm_source=meta&utm_medium=paid&utm_campaign=op90_salida\">Ver la clase completa</a>\n  </div></div>\n\n  </div>\n  <p class=\"aviso\">Los resultados de cada persona dependen de su trabajo, su mercado y su dedicaci&#243;n. No prometemos ingresos.</p>\n</div></div>\n";h.appendChild(d);[].forEach.call(document.querySelectorAll('section,.c-section,[id^=section-]'),function(x){if(!x.contains(d)&&!x.textContent.trim())x.style.display='none';});(function(){
+  var r=document.getElementById('op90'); if(!r) return;
+  function vw(){r.style.setProperty('--op90vw',document.documentElement.clientWidth+'px');} vw(); window.addEventListener('resize',vw);
+  function ev(n,p){try{if(window.fbq)fbq('trackCustom',n,Object.assign({},p||{},{funnel_variant:'b_libertad_5oct',vsl_version:'b1'}));}catch(e){}}
+  var HOOK='https://services.leadconnectorhq.com/hooks/IawpuuJf69E9JJDhPPZi/webhook-trigger/d648fb93-2451-44b8-914a-81ac05649b29', datos=null, OPTIN='no'==='si';
+  try{datos=JSON.parse(localStorage.getItem('op90_datos')||'null');}catch(e){}
+  var vid=r.querySelector('video'), modal=document.getElementById('op90-modal'), tapa=document.getElementById('op90-tapa');
+// Local candidate. No network, Meta events or production installation by default.
+function createRetention(emit = () => {}) {
+  const ranges = [], sent = new Set();
+  let previous = null;
+  function covered() { return ranges.reduce((n, r) => n + r[1] - r[0], 0); }
+  function add(start, end) {
+    ranges.push([start, end]); ranges.sort((a, b) => a[0] - b[0]);
+    for (let i = 1; i < ranges.length;) {
+      if (ranges[i][0] <= ranges[i - 1][1]) {
+        ranges[i - 1][1] = Math.max(ranges[i - 1][1], ranges[i][1]); ranges.splice(i, 1);
+      } else i++;
+    }
+  }
+  function once(name, data) { if (!sent.has(name)) { sent.add(name); emit(name, data); } }
+  function sample(s) {
+    const valid = Number.isFinite(s.time) && Number.isFinite(s.wall) && s.time >= 0;
+    const active = valid && s.full === true && s.visible === true && !s.paused && !s.seeking;
+    if (active && previous) {
+      const dt = s.time - previous.time, elapsed = (s.wall - previous.wall) / 1000;
+      const rate = Number.isFinite(s.rate) && s.rate > 0 ? s.rate : 1;
+      if (elapsed > 0 && elapsed <= 2 && dt > 0 && dt <= elapsed * rate + 0.35) {
+        const end = Number.isFinite(s.duration) ? Math.min(s.time, s.duration) : s.time;
+        if (end > previous.time) add(previous.time, end);
+        const data = { unique_media_seconds: Math.round(covered() * 10) / 10 };
+        once('OP90_VSLPlayReal', data);
+        if (Number.isFinite(s.duration) && s.duration > 0) {
+          for (const pct of [25, 50, 75, 90]) {
+            if (covered() / s.duration >= pct / 100) once('OP90_VSLWatched' + pct, data);
+          }
+          if (s.ended === true && covered() / s.duration >= 0.95) once('OP90_VSLComplete', data);
+        }
+      }
+    }
+    previous = active ? { time: s.time, wall: s.wall } : null;
+    return { uniqueMediaSeconds: covered(), events: [...sent] };
+  }
+  return { sample, resetBoundary() { previous = null; } };
+}
+
+// Attach only after the configured full VSL is selected, through an approved sink.
+// No URL, query strings, contact details or conversion events in this module.
+function attachRetention(video, document, emit, isFullVsl) {
+  const tracker = createRetention(emit), handlers = [];
+  function sample() { return tracker.sample({
+    time: video.currentTime, duration: video.duration, wall: Date.now(),
+    paused: video.paused, seeking: video.seeking, rate: video.playbackRate,
+    visible: document.visibilityState === 'visible', full: isFullVsl(video), ended: video.ended
+  }); }
+  for (const event of ['timeupdate', 'ended']) {
+    video.addEventListener(event, sample); handlers.push([video, event, sample]);
+  }
+  for (const event of ['seeking', 'seeked', 'pause', 'waiting', 'loadstart', 'ratechange']) {
+    video.addEventListener(event, tracker.resetBoundary); handlers.push([video, event, tracker.resetBoundary]);
+  }
+  document.addEventListener('visibilitychange', tracker.resetBoundary);
+  handlers.push([document, 'visibilitychange', tracker.resetBoundary]);
+  return () => handlers.forEach(([target, event, fn]) => target.removeEventListener(event, fn));
+}
+
+
+  // OP90 measurement v1: real full-VSL coverage, never preview or conversion.
+  if(vid && 'ads' === 'ads') {
+    var measureQs = new URLSearchParams(location.search);
+    var measureCreative = measureQs.get('utm_content');
+    var measureAd = measureQs.get('ad_id') || '';
+    var measureTags = {variante:'ads',funnel_variant:'b_libertad_5oct',vsl_version:'b1',measurement_version:'retention-v1',creative_id: /^(b1_historia_libertad_5oct|b2_desde_donde_estes_5oct)$/.test(measureCreative||'') ? measureCreative : 'control_or_unknown'};
+    if(/^\d{5,25}$/.test(measureAd)) measureTags.ad_id=measureAd;
+    attachRetention(vid,document,function(name,data){ev(name,Object.assign({},measureTags,data));},function(v){
+      var full=v.getAttribute('data-full');
+      return !!full && v.loop===false && (v.currentSrc===full || v.src===full);
+    });
+  }
+
+  function abrir(d,sonido){datos=d; if(tapa) tapa.remove(); var c=document.getElementById('op90-cta'); if(c) c.remove(); modal.classList.add('oculto'); document.getElementById('op90-resto').classList.remove('oculto');
+    var f=r.querySelector('.cal iframe'); if(f&&d){var q='?first_name='+encodeURIComponent(d.nombre)+'&email='+encodeURIComponent(d.correo)+'&phone='+encodeURIComponent(d.whatsapp); f.setAttribute('data-src',f.getAttribute('data-src').split('?')[0]+q);}
+    if(vid){vid.loop=false; vid.controls=true; if(vid.getAttribute('data-full')&&vid.src.indexOf('preview')>-1){vid.src=vid.getAttribute('data-full');} if(sonido){vid.currentTime=0; vid.muted=false; var pr=vid.play(); if(pr&&pr.catch) pr.catch(function(){vid.muted=true;vid.play();});}}
+    try{r.scrollIntoView({behavior:'smooth',block:'start'});}catch(x){} }
+  function pedir(){ev('OP90_PlayClick',{variante:'ads'}); if(!OPTIN){abrir(null,true);return;} modal.classList.remove('oculto'); setTimeout(function(){document.getElementById('op90-n').focus();},50);}
+  document.getElementById('op90-cta').addEventListener('click',pedir);
+  if(tapa) tapa.addEventListener('click',pedir);
+  document.getElementById('op90-cerrar').addEventListener('click',function(){modal.classList.add('oculto');});
+  if(!OPTIN){document.getElementById('op90-resto').classList.remove('oculto');} else if(datos) abrir(datos,false);
+  document.getElementById('op90-optin').addEventListener('submit',function(ev){ev.preventDefault();
+    var n=document.getElementById('op90-n').value.trim(), e=document.getElementById('op90-e').value.trim(), w=document.getElementById('op90-w').value.trim().replace(/[^0-9+]/g,'');
+    var err=document.getElementById('op90-err');
+    if(!n){err.textContent='Escribe tu nombre.';return;} if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)){err.textContent='Revisa tu correo.';return;}
+    if(w.replace(/\D/g,'').length<8){err.textContent='Escribe tu WhatsApp con c&#243;digo de pa&#237;s.';return;} if(w[0]!=='+') w='+'+w;
+    err.textContent=''; var qs=new URLSearchParams(location.search);
+    var d={nombre:n,correo:e,whatsapp:w,variante:'ads',utm_source:qs.get('utm_source')||'meta',utm_medium:qs.get('utm_medium')||'paid',utm_campaign:qs.get('utm_campaign')||'',utm_content:qs.get('utm_content')||'',pagina:location.href};
+    try{fetch(HOOK,{method:'POST',mode:'no-cors',body:new URLSearchParams(d)});}catch(x){}
+    try{localStorage.setItem('op90_datos',JSON.stringify(d));}catch(x){}
+    try{if(window.fbq){fbq('track','ViewContent',{content_name:'Operador 90 ads opt-in'});fbq('trackCustom','OP90_Optin',{content_name:'Operador 90 ads'});}}catch(x){}
+    abrir(d,true); });
+  var resp={};
+  function ver(id){var e=document.getElementById(id); e.classList.remove('oculto'); try{e.scrollIntoView({behavior:'smooth',block:'start'});}catch(x){}}
+  [].slice.call(r.querySelectorAll('.bt[data-p]')).forEach(function(b){
+    b.addEventListener('click',function(){
+      var p=b.getAttribute('data-p'), v=b.getAttribute('data-v'); resp['p'+p]=v;
+      [].slice.call(r.querySelectorAll('.bt[data-p="'+p+'"]')).forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+      ev('OP90_P'+p,{respuesta:v,variante:'ads'});
+      if(p==='1'){ ver('op90-p2'); }
+      if(p==='2'){
+        document.getElementById('op90-agenda').classList.add('oculto'); document.getElementById('op90-salida').classList.add('oculto');
+        if(v==='si'){ var fc=r.querySelector('.cal iframe'); if(fc&&!fc.src){var bookingURL=new URL(fc.getAttribute('data-src'));bookingURL.searchParams.set('utm_source','meta');bookingURL.searchParams.set('utm_medium','paid');bookingURL.searchParams.set('utm_campaign','op90_libertad_b');var paidParams=new URLSearchParams(window.location.search);var bContent=paidParams.get('utm_content');if(/^(b1_historia_libertad_5oct|b2_desde_donde_estes_5oct)$/.test(bContent||''))bookingURL.searchParams.set('utm_content',bContent);var bAd=paidParams.get('ad_id');if(/^\d{5,25}$/.test(bAd||''))bookingURL.searchParams.set('ad_id',bAd);fc.src=bookingURL.toString(); var e2=document.createElement('script'); e2.src='https://link.msgsndr.com/js/form_embed.js'; document.body.appendChild(e2);} ver('op90-agenda'); ev('OP90_Califica',{negocio:resp.p1,variante:'ads'}); try{if(window.fbq)fbq('track','Lead',{content_name:'Operador 90 B libertad califica',funnel_variant:'b_libertad_5oct'});}catch(x){} }
+        else { ver('op90-salida'); ev('OP90_NoCalifica',{negocio:resp.p1,variante:'ads'}); }
+      }
+    });
+  });
+})();})();
