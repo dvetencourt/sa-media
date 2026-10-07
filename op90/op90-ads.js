@@ -85,7 +85,7 @@ function attachRetention(video, document, emit, isFullVsl) {
   function pedir(){ev('OP90_PlayClick',{variante:'ads'}); if(!OPTIN){abrir(null,true);return;} modal.classList.remove('oculto'); setTimeout(function(){document.getElementById('op90-n').focus();},50);}
   document.getElementById('op90-cta').addEventListener('click',pedir);
   if(tapa) tapa.addEventListener('click',pedir);
-  document.getElementById('op90-cerrar').addEventListener('click',function(){modal.classList.add('oculto');});
+  document.getElementById('op90-cerrar').addEventListener('click',function(){modal.classList.add('oculto'); if(capModo){capModo=false; cargarCal();}});
   if(!OPTIN){document.getElementById('op90-resto').classList.remove('oculto');} else if(datos) abrir(datos,false);
   document.getElementById('op90-optin').addEventListener('submit',function(ev){ev.preventDefault();
     var n=document.getElementById('op90-n').value.trim(), e=document.getElementById('op90-e').value.trim(), w=document.getElementById('op90-w').value.trim().replace(/[^0-9+]/g,'');
@@ -97,7 +97,10 @@ function attachRetention(video, document, emit, isFullVsl) {
     try{fetch(HOOK,{method:'POST',mode:'no-cors',body:new URLSearchParams(d)});}catch(x){}
     try{localStorage.setItem('op90_datos',JSON.stringify(d));}catch(x){}
     try{if(window.fbq){fbq('track','ViewContent',{content_name:'Operador 90 ads opt-in'});fbq('trackCustom','OP90_Optin',{content_name:'Operador 90 ads'});}}catch(x){}
-    abrir(d,true); });
+    if(capModo){capModo=false; modal.classList.add('oculto'); var f=r.querySelector('.cal iframe'); if(f){f.setAttribute('data-src',f.getAttribute('data-src').split('?')[0]+'?first_name='+encodeURIComponent(d.nombre)+'&email='+encodeURIComponent(d.correo)+'&phone='+encodeURIComponent(d.whatsapp));} cargarCal(); ev('OP90_Captura',{variante:'ads'}); return;} abrir(d,true); });
+  function cargarCal(){var fc=r.querySelector('.cal iframe'); if(fc&&!fc.src){var bookingURL=new URL(fc.getAttribute('data-src'));var paidParams=new URLSearchParams(window.location.search);['utm_source','utm_medium','utm_campaign','utm_content','utm_term','ad_id'].forEach(function(key){var value=paidParams.get(key);if(value&&value.length<=256)bookingURL.searchParams.set(key,value);});fc.src=bookingURL.toString(); var e2=document.createElement('script'); e2.src='https://link.msgsndr.com/js/form_embed.js'; document.body.appendChild(e2);} ver('op90-agenda');}
+  var capModo=false;
+  function paso3(){ if(datos){cargarCal();return;} capModo=true; var t=document.getElementById('op90-mt'); if(t&&t.firstChild) t.firstChild.nodeValue='\u00daltimo paso: \u00bfa d\u00f3nde te confirmamos la llamada? '; var sb=document.querySelector('#op90-optin button[type=submit]'); if(sb) sb.textContent='Ver horarios disponibles'; modal.classList.remove('oculto'); setTimeout(function(){var n=document.getElementById('op90-n'); if(n) n.focus();},50); ev('OP90_CapturaVista',{variante:'ads'}); }
   var resp={}, leadEmitted=false;
   function ver(id){var e=document.getElementById(id); e.classList.remove('oculto'); try{e.scrollIntoView({behavior:'smooth',block:'start'});}catch(x){}}
   [].slice.call(r.querySelectorAll('.bt[data-p]')).forEach(function(b){
@@ -108,7 +111,7 @@ function attachRetention(video, document, emit, isFullVsl) {
       if(p==='1'){ ver('op90-p2'); }
       if(p==='2'){
         document.getElementById('op90-agenda').classList.add('oculto'); document.getElementById('op90-salida').classList.add('oculto');
-        if(v==='si'){ var fc=r.querySelector('.cal iframe'); if(fc&&!fc.src){var bookingURL=new URL(fc.getAttribute('data-src'));var paidParams=new URLSearchParams(window.location.search);['utm_source','utm_medium','utm_campaign','utm_content','utm_term','ad_id'].forEach(function(key){var value=paidParams.get(key);if(value&&value.length<=256)bookingURL.searchParams.set(key,value);});fc.src=bookingURL.toString(); var e2=document.createElement('script'); e2.src='https://link.msgsndr.com/js/form_embed.js'; document.body.appendChild(e2);} ver('op90-agenda'); ev('OP90_Califica',{negocio:resp.p1,variante:'ads'}); try{if(window.fbq&&!leadEmitted){leadEmitted=true;fbq('track','Lead',{content_name:'Operador 90 ads califica'});}}catch(x){} }
+        if(v==='si'){ paso3(); ev('OP90_Califica',{negocio:resp.p1,variante:'ads'}); try{if(window.fbq&&!leadEmitted){leadEmitted=true;fbq('track','Lead',{content_name:'Operador 90 ads califica'});}}catch(x){} }
         else { ver('op90-salida'); ev('OP90_NoCalifica',{negocio:resp.p1,variante:'ads'}); }
       }
     });
