@@ -18,7 +18,7 @@
     var n=document.getElementById('op90-n').value.trim(), e=document.getElementById('op90-e').value.trim(), w=document.getElementById('op90-w').value.trim().replace(/[^0-9+]/g,'');
     var err=document.getElementById('op90-err');
     if(!n){err.textContent='Escribe tu nombre.';return;} if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)){err.textContent='Revisa tu correo.';return;}
-    if(w.replace(/\D/g,'').length<8){err.textContent='Escribe tu WhatsApp con c&#243;digo de pa&#237;s.';return;} if(w[0]!=='+') w='+'+w;
+    if(w.replace(/\D/g,'').length<8){err.textContent='Escribe tu WhatsApp con c&#243;digo de pa&#237;s.';return;} var dg=w.replace(/\D/g,''); if(w[0]!=='+'){ if(dg.length===10) w='+1'+dg; else if(dg.length===11&&dg[0]==='1') w='+'+dg; else w='+'+dg; } else w='+'+dg;
     err.textContent=''; var qs=new URLSearchParams(location.search);
     var d={nombre:n,correo:e,whatsapp:w,variante:'organico',utm_source:qs.get('utm_source')||'',utm_medium:qs.get('utm_medium')||'',utm_campaign:qs.get('utm_campaign')||'',utm_content:qs.get('utm_content')||'',pagina:location.href};
     try{fetch(HOOK,{method:'POST',mode:'no-cors',body:new URLSearchParams(d)});}catch(x){}
