@@ -2,11 +2,14 @@
    Un solo script para las 4 páginas. En GHL va un bloque Custom HTML con:
      <div id="evhost" data-pagina="registro|confirmada|sala|replay"></div>
      <script src="https://dvetencourt.github.io/sa-media/op90/evergreen/evergreen.js"></script>
-   Reglas: sin precio ni garantía en la página; sin chat falso ni asistentes inventados.
+   Reglas: sin precio ni garantía en la página; sin asistentes inventados ni contador de asistentes.
+   Chat de la sala: solo comentarios REALES del vivo del 30-sep (chat-30sep.json, sacado del chat de YouTube) a su minuto,
+   más lo que escribe el espectador, que se manda a GHL (webhook de señales, evento «chat») para que responda el equipo.
    La fecha de la clase: registro + 5 días a las 7:00 PM America/New_York; si cae sábado o domingo, lunes.
    (Misma regla que el workflow «Evergreen · registro» en GHL, que es la fuente oficial: campo fecha_webinar). */
 (function () {
   'use strict';
+  var SRC = (document.currentScript && document.currentScript.src) || '';
 
   /* ---------- Configuración (lo único que se toca para cambiar video, días u oferta) ---------- */
   var CFG = {
@@ -24,6 +27,9 @@
     AGENDA: 'https://api.leadconnectorhq.com/widget/booking/j5jRGE57xpyhMZtXuix7',
     PIXEL: '706725165238205',
     BASE: 'https://solucionesartificiales.com',
+    // Chat de la sala: comentarios reales del vivo del 30-sep con su segundo del PROGRAMA (ya mapeado con TRAMOS). Si cambian TRAMOS, se regenera.
+    CHAT_URL: 'https://dvetencourt.github.io/sa-media/op90/evergreen/chat-30sep.json',
+    CHAT_MAX: 60,            // mensajes visibles a la vez
     // Vista previa de GHL (embudo f1ZXlgaalQCwpoF6uyxt, sin dominio): ids de página para navegar entre pasos al probar.
     PREVIEW: { masterclass: 'cnweu7KmGn7VcqN5DDV1', 'masterclass-confirmada': 'QIGk1D36HKexzmZ8Gpa3', 'masterclass-sala': '8z1L3ObiK4e7W1vC0eDd', 'masterclass-replay': 'v7s8rUBzZaBcunhNez51' }
   };
@@ -123,6 +129,14 @@
     '#ev .estado{display:inline-flex;align-items:center;gap:8px;font:700 12px "Courier New",monospace;letter-spacing:.08em;text-transform:uppercase}#ev .punto{width:10px;height:10px;background:var(--coral);display:inline-block}' +
     '#ev .cal iframe{width:100%;min-height:900px;border:0;display:block;background:#fff}#ev .oculto{display:none}' +
     '@media (max-width:520px){#ev .tapa{gap:6px;padding:10px}#ev .tapa p{font-size:14px!important}#ev .cuenta{gap:6px;flex-wrap:nowrap}#ev .cuenta div{min-width:0;flex:1;font-size:18px;padding:4px 2px}#ev .cuenta small{font-size:9px}#ev .tapa .btn{font-size:16px;padding:10px 14px;min-height:0;margin-top:4px}}' +
+    '#ev.conchat .wrap{max-width:1180px}#ev .sala{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}#ev .sala.sinchat{grid-template-columns:minmax(0,1fr)}#ev .sala.sinchat .chat{display:none}' +
+    '#ev .chat{display:flex;flex-direction:column;height:520px;background:var(--blanco);border:2px solid var(--tinta);box-shadow:6px 6px 0 var(--tinta)}#ev .chat .bar{flex:none}' +
+    '#ev .rotulo{flex:none;margin:0;padding:6px 12px;font:700 11px "Courier New",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--gris);border-bottom:1px dashed #d7d2c8}' +
+    '#ev .msgs{flex:1;min-height:0;overflow-y:auto;padding:8px 12px;overscroll-behavior:contain}#ev .msg{margin:0;padding:5px 0;font-size:15px;line-height:1.4;overflow-wrap:anywhere}#ev .msg b{margin-right:6px}' +
+    '#ev .msg.yo{background:var(--azulp);margin:4px -6px;padding:6px}#ev .msg.yo b{color:var(--cobalto)}#ev .msg.nota{font-size:13px;color:var(--gris);font-style:italic}#ev .vacio{font-size:14px;color:var(--gris);margin:8px 0}' +
+    '#ev .escribir{flex:none;display:flex;gap:8px;padding:10px;border-top:2px solid var(--tinta);background:var(--papel)}#ev .escribir input{flex:1;min-width:0;min-height:44px;font-size:16px;background:var(--blanco)}' +
+    '#ev .escribir button{flex:none;min-height:44px;padding:0 14px;border:2px solid var(--tinta);background:var(--cobalto);color:#fff;font-weight:700;font-size:15px;cursor:pointer}' +
+    '@media (max-width:900px){#ev .sala{grid-template-columns:minmax(0,1fr)}#ev .chat{height:420px}}@media (max-width:520px){#ev .chat{height:380px}}' +
     '@media (prefers-reduced-motion:reduce){#ev .btn{transition:none}}';
 
   function marco(contenido) {
@@ -209,9 +223,14 @@
       '<span class="estado" id="ev-estado"><span class="punto"></span> ' + (esReplay ? 'Repetición' : 'Clase programada') + '</span>' +
       '<h1>' + (esReplay ? 'La clase completa, disponible 48 horas' : 'Tu clase: ' + esc(textoFecha(f)) + ', 7:00 PM Miami') + '</h1>' +
       '<p class="sub">' + (esReplay ? 'Es la misma clase que se transmitió a tu hora. Al final te explico el siguiente paso.' : 'Es una clase grabada en vivo que se transmite a esta hora, como una clase con horario. Si llegas tarde, entras en el minuto en que va.') + '</p>' +
+      '<div class="sala" id="ev-sala"><div class="col">' +
       '<div class="video"><div id="ev-yt"></div><div class="tapa" id="ev-tapa"></div></div>' +
-      '<div id="ev-oferta" class="oculto">' + win('Siguiente paso', '<h2>Agenda tu llamada con mi equipo</h2><p style="font-size:18px;line-height:1.5;margin:0 0 6px">Vemos tu caso, qué quieres lograr en los próximos 90 días y si Operador 90 tiene sentido para ti. Si no lo tiene, te lo decimos.</p><button class="btn" type="button" id="ev-agendar">Agendar mi llamada con el equipo</button><div class="cal oculto" id="ev-cal"><iframe title="Agenda" scrolling="no" id="j5jRGE57xpyhMZtXuix7_ev"></iframe></div>') + '</div>'
+      '<div id="ev-oferta" class="oculto">' + win('Siguiente paso', '<h2>Agenda tu llamada con mi equipo</h2><p style="font-size:18px;line-height:1.5;margin:0 0 6px">Vemos tu caso, qué quieres lograr en los próximos 90 días y si Operador 90 tiene sentido para ti. Si no lo tiene, te lo decimos.</p><button class="btn" type="button" id="ev-agendar">Agendar mi llamada con el equipo</button><div class="cal oculto" id="ev-cal"><iframe title="Agenda" scrolling="no" id="j5jRGE57xpyhMZtXuix7_ev"></iframe></div>') + '</div>' +
+      '</div><aside class="chat" id="ev-chat" aria-label="Chat de la clase"><div class="bar"><span>Chat de la clase</span><i aria-hidden="true"><b></b><b></b></i></div>' +
+      '<p class="rotulo">Comentarios de la clase en vivo</p><div class="msgs" id="ev-msgs" role="log" aria-live="off"></div>' +
+      '<form class="escribir" id="ev-escribir" autocomplete="off"><input id="ev-texto" maxlength="300" placeholder="Escribe tu pregunta o comentario" aria-label="Tu mensaje"><button type="submit">Enviar</button></form></aside></div>'
     );
+    try { document.getElementById('ev').classList.add('conchat'); } catch (e) { }
     var tapa = document.getElementById('ev-tapa'), oferta = document.getElementById('ev-oferta');
     function verOferta() { if (!oferta.classList.contains('oculto')) return; oferta.classList.remove('oculto'); senal('oferta'); fb('trackCustom', 'OP90_WebinarOferta', { modo: esReplay ? 'replay' : 'sala' }); }
     document.getElementById('ev-agendar').addEventListener('click', function () {
@@ -269,6 +288,70 @@
       if (p >= DUR * 0.5) senal('vio50');
       if (p >= OFERTA - 2) verOferta();
     }
+    /* ---------- Chat de la sala ----------
+       Muestra los comentarios REALES del vivo del 30-sep (chat-30sep.json) cuando el programa llega a su segundo «t».
+       Lo que escribe el espectador se ve en su chat y va a GHL (webhook de señales) como evento «chat» para que responda el equipo.
+       No hay contador de personas: la página no tiene una forma segura de leer los registrados reales. */
+    function iniciarChat() {
+      var caja = document.getElementById('ev-msgs'), salaEl = document.getElementById('ev-sala'), form = document.getElementById('ev-escribir'), campo = document.getElementById('ev-texto');
+      if (!caja || !salaEl || !form) return;
+      var CHAT_URL = /evergreen\.js(\?.*)?$/.test(SRC) ? SRC.replace(/evergreen\.js(\?.*)?$/, 'chat-30sep.json') : CFG.CHAT_URL;
+      var LISTA = [], propios = [], mostrado = -1, idx = 0, avisado = false, ultimoEnvio = 0;
+      var cC = qs.get('c') || ls('ev_c'), cOK = !!(cC && /^[A-Za-z0-9]{8,40}$/.test(cC));
+      var yo = cOK ? 'Tú' : (datos.nombre ? String(datos.nombre).split(' ')[0] : 'Tú');
+      var kPropios = 'ev_chat_' + (cOK ? cC : 'anon') + '_' + iso(f);
+      try { propios = JSON.parse(ls(kPropios) || '[]') || []; } catch (e) { propios = []; }
+      function hms(x) { x = Math.max(0, Math.floor(x)); return Math.floor(x / 3600) + ':' + pad(Math.floor(x % 3600 / 60)) + ':' + pad(x % 60); }
+      function prog() { // segundo del programa que toca mostrar; -1 = todavía no empieza
+        if (player && listo && player.getCurrentTime) { var st = player.getPlayerState ? player.getPlayerState() : -1; if (esReplay || st === 1 || st === 3) return Math.min(DUR, aPrograma(player.getCurrentTime())); }
+        if (esReplay || Date.now() < inicio) return -1;
+        return Math.min(DUR, (Date.now() - inicio) / 1000);
+      }
+      function nodo(o, clase) { var p = document.createElement('p'); p.className = 'msg' + (clase ? ' ' + clase : ''); p.innerHTML = (o.n ? '<b>' + esc(o.n) + '</b>' : '') + esc(o.m); return p; }
+      function recortar() { var ms = caja.querySelectorAll('.msg'); for (var i = 0; i < ms.length - CFG.CHAT_MAX; i++) caja.removeChild(ms[i]); }
+      function abajo() { caja.scrollTop = caja.scrollHeight; }
+      function reconstruir(p) { // pinta de una vez lo que ya pasó (al entrar tarde o al saltar en la repetición)
+        caja.innerHTML = '';
+        var arr = [];
+        LISTA.forEach(function (o) { if (o.t <= p) arr.push(o); });
+        propios.forEach(function (o) { if (p < 0 || o.t <= p) arr.push({ t: o.t, n: yo, m: o.m, yo: 1 }); });
+        arr.sort(function (a, b) { return a.t - b.t; });
+        if (p < 0) { var v = document.createElement('p'); v.className = 'vacio'; v.textContent = esReplay ? 'Los comentarios de la clase aparecen a su minuto cuando le das play.' : 'Los comentarios de la clase aparecen cuando empiece.'; caja.appendChild(v); }
+        arr.slice(-CFG.CHAT_MAX).forEach(function (o) { caja.appendChild(nodo(o, o.yo ? 'yo' : '')); });
+        idx = 0; while (idx < LISTA.length && LISTA[idx].t <= p) idx++;
+        abajo();
+      }
+      function tick() {
+        var now = Date.now(), visible = !esReplay || (now >= finProg && now <= cierreReplay);
+        salaEl.classList.toggle('sinchat', !visible); if (!visible) return;
+        var p = prog();
+        if (p < 0) { if (mostrado !== -2) { reconstruir(-1); mostrado = -2; } return; }
+        if (mostrado < 0 || p < mostrado - 3 || p > mostrado + 30) { reconstruir(p); mostrado = p; return; }
+        var pegado = caja.scrollHeight - caja.scrollTop - caja.clientHeight < 80, hubo = false;
+        while (idx < LISTA.length && LISTA[idx].t <= p) { caja.appendChild(nodo(LISTA[idx])); idx++; hubo = true; }
+        if (hubo) { recortar(); if (pegado) abajo(); }
+        mostrado = p;
+      }
+      function mandar(texto, p) { // a GHL: Evergreen · señales de la sala (mismo webhook), evento «chat»
+        var d = new URLSearchParams({ evento: 'chat', c: cOK ? cC : '', contact_id: cOK ? cC : '', texto: texto, t: String(p < 0 ? 0 : Math.round(p)), minuto: p < 0 ? 'antes de empezar' : hms(p), video_en: p < 0 ? '' : hms(aFuente(p)), pagina: PAGINA, fecha_clase: iso(f) });
+        if (!cOK) { if (!datos.correo && !datos.whatsapp) return false; d.set('nombre', datos.nombre || ''); d.set('correo', datos.correo || ''); d.set('whatsapp', datos.whatsapp || ''); }
+        try { fetch(CFG.HOOK_SENALES, { method: 'POST', mode: 'no-cors', body: d }); return true; } catch (e) { return false; }
+      }
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var texto = campo.value.replace(/\s+/g, ' ').trim().slice(0, 300); if (!texto) return;
+        var ahora = Date.now(); if (ahora - ultimoEnvio < 2500) return; ultimoEnvio = ahora;
+        var p = prog();
+        propios.push({ t: p < 0 ? 0 : Math.round(p), m: texto }); if (propios.length > 30) propios = propios.slice(-30); ls(kPropios, JSON.stringify(propios));
+        caja.appendChild(nodo({ n: yo, m: texto }, 'yo')); recortar(); campo.value = '';
+        var ok = mandar(texto, p);
+        if (!avisado || !ok) { avisado = true; caja.appendChild(nodo({ m: ok ? 'Tu mensaje le llegó al equipo de Diego. Te responden por WhatsApp.' : 'Para que el equipo te responda, entra desde el link personal que te llegó por correo o WhatsApp.' }, 'nota')); }
+        abajo();
+      });
+      try { fetch(CHAT_URL).then(function (r) { return r.ok ? r.json() : []; }).then(function (a) { if (Array.isArray(a)) { LISTA = a.filter(function (o) { return o && typeof o.t === 'number' && o.m; }).sort(function (x, y) { return x.t - y.t; }); mostrado = -1; tick(); } }).catch(function () { }); } catch (e) { }
+      tick(); setInterval(tick, 1000);
+    }
+    iniciarChat();
     pintar(); timer = setInterval(pintar, 1000);
   }
   function cargarYT(cb) {
