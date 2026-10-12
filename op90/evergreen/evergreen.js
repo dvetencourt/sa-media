@@ -23,12 +23,20 @@
     HOOK_SENALES: 'https://services.leadconnectorhq.com/hooks/IawpuuJf69E9JJDhPPZi/webhook-trigger/2c2820d8-dbcd-47f7-9895-afae7faea809',
     AGENDA: 'https://api.leadconnectorhq.com/widget/booking/j5jRGE57xpyhMZtXuix7',
     PIXEL: '706725165238205',
-    BASE: 'https://solucionesartificiales.com'
+    BASE: 'https://solucionesartificiales.com',
+    // Vista previa de GHL (embudo f1ZXlgaalQCwpoF6uyxt, sin dominio): ids de página para navegar entre pasos al probar.
+    PREVIEW: { masterclass: 'cnweu7KmGn7VcqN5DDV1', 'masterclass-confirmada': 'QIGk1D36HKexzmZ8Gpa3', 'masterclass-sala': '8z1L3ObiK4e7W1vC0eDd', 'masterclass-replay': 'v7s8rUBzZaBcunhNez51' }
   };
+  function url(ruta) { // en el dominio real: /ruta ; en la vista previa de GHL: /preview/<id>
+    if (/\/preview\//.test(location.pathname) && CFG.PREVIEW[ruta]) return location.origin + '/preview/' + CFG.PREVIEW[ruta];
+    return CFG.BASE + '/' + ruta;
+  }
 
   var host = document.getElementById('evhost');
   if (!host) { host = document.createElement('div'); host.id = 'evhost'; document.body.appendChild(host); }
-  var PAGINA = (host.getAttribute('data-pagina') || 'registro').toLowerCase();
+  var PAGINA = (host.getAttribute('data-pagina') || window.EV_PAGINA || 'registro').toLowerCase();
+  if (PAGINA !== 'prueba' && document.body && document.body.firstChild !== host) { try { document.body.insertBefore(host, document.body.firstChild); } catch (e) { } }
+  try { document.title = { registro: 'Clase gratuita · Diego Vetencourt', confirmada: 'Tu lugar está confirmado · Diego Vetencourt', sala: 'Tu clase · Diego Vetencourt', replay: 'Repetición de la clase · Diego Vetencourt' }[PAGINA] || document.title; } catch (e) { }
   var qs = new URLSearchParams(location.search);
 
   /* ---------- Utilidades ---------- */
@@ -158,7 +166,7 @@
       try { fetch(CFG.HOOK_REGISTRO, { method: 'POST', mode: 'no-cors', body: d }); } catch (x) { }
       ls('ev_datos', JSON.stringify({ nombre: n, correo: em, whatsapp: w, d: iso(f2) }));
       if (!ls('ev_lead_' + iso(f2))) { fb('track', 'Lead', { content_name: 'Webinar evergreen OP90' }); ls('ev_lead_' + iso(f2), '1'); }
-      setTimeout(function () { location.href = CFG.BASE + '/masterclass-confirmada?d=' + iso(f2); }, 700);
+      setTimeout(function () { location.href = url('masterclass-confirmada') + '?d=' + iso(f2); }, 700);
     });
   }
 
@@ -191,7 +199,7 @@
     var f = parseFecha(qs.get('d')) || (function () { try { return parseFecha(JSON.parse(ls('ev_datos')).d); } catch (e) { return null; } })();
     var datos = {}; try { datos = JSON.parse(ls('ev_datos')) || {}; } catch (e) { }
     if (!f) {
-      marco('<h1>No encontramos la fecha de tu clase</h1>' + win('Qué hacer', '<p style="font-size:18px;margin:0 0 8px">Entra desde el link personal que te llegó por correo o WhatsApp. Si no lo tienes, reserva tu lugar otra vez.</p><a class="btn" href="' + CFG.BASE + '/masterclass">Reservar mi lugar</a>'));
+      marco('<h1>No encontramos la fecha de tu clase</h1>' + win('Qué hacer', '<p style="font-size:18px;margin:0 0 8px">Entra desde el link personal que te llegó por correo o WhatsApp. Si no lo tienes, reserva tu lugar otra vez.</p><a class="btn" href="' + url('masterclass') + '">Reservar mi lugar</a>'));
       return;
     }
     var horaQA = /^\d{1,2}$/.test(qs.get('h') || '') ? +qs.get('h') : CFG.HORA_NY; // solo para pruebas de QA
@@ -220,7 +228,7 @@
     function pintar() {
       var now = Date.now();
       if (esReplay) {
-        if (now < finProg && now >= inicio) { tapa.innerHTML = '<p style="font-size:20px;margin:0">Tu clase se está transmitiendo ahora.</p><a class="btn" href="' + CFG.BASE + '/masterclass-sala' + location.search + '">Ir a la clase en curso</a>'; return; }
+        if (now < finProg && now >= inicio) { tapa.innerHTML = '<p style="font-size:20px;margin:0">Tu clase se está transmitiendo ahora.</p><a class="btn" href="' + url('masterclass-sala') + location.search + '">Ir a la clase en curso</a>'; return; }
         if (now < inicio) { tapa.innerHTML = '<p style="font-size:20px;margin:0">La repetición se abre después de tu clase.</p>'; return; }
         if (now > cierreReplay) { tapa.innerHTML = '<p style="font-size:20px;margin:0">La repetición ya cerró.</p><p style="margin:0">Si quieres ver tu caso con mi equipo, todavía puedes agendar.</p>'; verOferta(); return; }
         tapa.innerHTML = '<button class="btn" type="button" id="ev-play">▶ Ver la clase</button>'; document.getElementById('ev-play').onclick = function () { arrancar(0); senal('replay'); };
@@ -233,7 +241,7 @@
       }
       if (now >= finProg) {
         clearInterval(timer);
-        tapa.innerHTML = '<p style="font-size:20px;margin:0">La clase de hoy ya terminó.</p>' + (now < cierreReplay ? '<a class="btn" href="' + CFG.BASE + '/masterclass-replay' + location.search + '">Ver la repetición (48 horas)</a>' : '');
+        tapa.innerHTML = '<p style="font-size:20px;margin:0">La clase de hoy ya terminó.</p>' + (now < cierreReplay ? '<a class="btn" href="' + url('masterclass-replay') + location.search + '">Ver la repetición (48 horas)</a>' : '');
         verOferta(); return;
       }
       if (!listo) { tapa.innerHTML = '<p style="font-size:20px;margin:0"><span class="punto"></span> La clase está en curso</p><button class="btn" type="button" id="ev-play">▶ Entrar a la clase con sonido</button>'; document.getElementById('ev-play').onclick = function () { fb('trackCustom', 'OP90_WebinarAsistio', { minuto: Math.floor(ahoraProg() / 60) }); arrancar(ahoraProg()); }; clearInterval(timer); }
