@@ -13,7 +13,7 @@
 
   /* ---------- Configuración (lo único que se toca para cambiar video, días u oferta) ---------- */
   var CFG = {
-    DIAS: 5,                 // configurable 5-7. Si cambia, cambiar también las ramas del workflow en GHL.
+    DIAS: 5,                 // fijo: 5 días exactos (Diego, 12-oct). Si cambia, cambiar también el workflow de registro en GHL.
     HORA_NY: 19,             // 7:00 PM Miami
     YT_ID: 'IlKhr02PMJg',    // PLACEHOLDER: grabación del 30-sep (sin editar). Reemplazar por el corte evergreen no listado.
     // Tramos del video original que se reproducen, en segundos [inicio, fin]. Lo de afuera se salta.
@@ -65,11 +65,9 @@
     return r;
   }
   function sumarDias(y, m, d, n) { var t = new Date(Date.UTC(y, m - 1, d + n)); return { y: t.getUTCFullYear(), m: t.getUTCMonth() + 1, d: t.getUTCDate(), dow: t.getUTCDay() }; }
-  function calcularClase(ahora) { // misma regla que GHL: lunes +7, martes +6, resto +5 (con DIAS=5)
+  function calcularClase(ahora) { // regla de Diego (12-oct, 7:45 PM): «5 días hasta el webinar, punto y final». Registro + 5, también sábado o domingo.
     var hoy = partesNY(ahora);
-    var f = sumarDias(hoy.y, hoy.m, hoy.d, CFG.DIAS);
-    if (f.dow === 6) f = sumarDias(f.y, f.m, f.d, 2); else if (f.dow === 0) f = sumarDias(f.y, f.m, f.d, 1);
-    return f;
+    return sumarDias(hoy.y, hoy.m, hoy.d, CFG.DIAS);
   }
   function iso(f) { return f.y + '-' + pad(f.m) + '-' + pad(f.d); }
   function textoFecha(f) { return DIAS_ES[f.dow] + ' ' + f.d + ' de ' + MESES_ES[f.m - 1]; }
