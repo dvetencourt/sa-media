@@ -1,0 +1,214 @@
+<!-- SA · Operador 90 · Evergreen · REGISTRO (/masterclass) · v2 12-oct-2026
+     Va en UN elemento Custom HTML de GHL (se pinta desde el servidor: sin esperar al builder).
+     Fuente: ChatGPT/webinar-evergreen/paginas/registro.html (copia en sa-media op90/evergreen/paginas/).
+     Sin precio, sin «gratis», sin cifras de ingresos. Webhook y regla de fecha = evergreen.js. -->
+<style>
+html,body{background:#fffaf2!important}
+#evr{--papel:#fffaf2;--blanco:#fff;--tinta:#202329;--cobalto:#234ddb;--coral:#bc442c;--azulp:#dce5ff;--coralp:#ffe3d9;--gris:#505966;font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--papel);color:var(--tinta);width:100vw;position:relative;left:50%;margin-left:-50vw;overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.45}
+#evr *{box-sizing:border-box}
+#evr .wrap{max-width:1040px;margin:0 auto;padding:10px 16px 48px}
+#evr .top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+#evr .brand{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--tinta);font:700 10px/1.05 "Courier New",monospace;text-transform:uppercase;letter-spacing:.04em}
+#evr .mark{width:28px;height:28px;display:grid;place-items:center;border:2px solid var(--tinta);background:var(--coral);color:#fff;font:700 12px "Courier New",monospace;box-shadow:2px 2px 0 var(--tinta)}
+#evr .chip{font:700 11px "Courier New",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--coral);text-align:right}
+#evr h1{font-size:clamp(27px,6.6vw,50px);line-height:1.06;letter-spacing:-.02em;margin:0 0 12px;text-wrap:balance}
+#evr h1 em{font-style:normal;color:var(--cobalto)}
+#evr .fila{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+#evr .vsl{position:relative;flex:0 0 31%;max-width:132px;aspect-ratio:9/16;border:2px solid var(--tinta);box-shadow:4px 4px 0 var(--tinta);background:#202329;padding:0;cursor:pointer;overflow:hidden;display:block}
+#evr .vsl img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+#evr .vsl .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:46px;height:46px;border:2px solid var(--tinta);background:var(--cobalto);color:#fff;display:grid;place-items:center;font-size:18px;box-shadow:3px 3px 0 var(--tinta)}
+#evr .vsl .dur{position:absolute;left:0;right:0;bottom:0;background:var(--tinta);color:#fff;font:700 10px "Courier New",monospace;letter-spacing:.05em;text-transform:uppercase;padding:5px 4px;text-align:center}
+#evr .sub{margin:0;font-size:15.5px;line-height:1.45;color:var(--tinta)}
+#evr .sub b{color:var(--cobalto)}
+#evr .win{background:var(--blanco);border:2px solid var(--tinta);box-shadow:6px 6px 0 var(--tinta)}
+#evr .bar{display:flex;justify-content:space-between;align-items:center;background:var(--cobalto);color:#fff;font:700 11px "Courier New",monospace;letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;border-bottom:2px solid var(--tinta)}
+#evr .bar i{display:inline-flex;gap:4px}#evr .bar i b{width:8px;height:8px;border:2px solid #fff;display:block}
+#evr .body{padding:12px 14px 14px}
+#evr .form-fecha{margin:0 0 8px;font-size:14.5px;line-height:1.4}
+#evr label{display:block;font:700 11px "Courier New",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--gris);margin:8px 0 4px}
+#evr input,#evr select{width:100%;height:46px;border:2px solid var(--tinta);background:var(--papel);color:var(--tinta);font-size:16px;padding:0 12px;border-radius:0;-webkit-appearance:none;appearance:none;margin:0}
+#evr .tel{display:flex;gap:6px}#evr .tel select{flex:0 0 44%;font-size:15px;padding:0 6px;background-image:linear-gradient(45deg,transparent 50%,#202329 50%),linear-gradient(135deg,#202329 50%,transparent 50%);background-position:calc(100% - 13px) 50%,calc(100% - 8px) 50%;background-size:5px 5px;background-repeat:no-repeat}#evr .tel input{flex:1;min-width:0}
+#evr input:focus,#evr select:focus{outline:3px solid var(--azulp);outline-offset:0}
+#evr .btn{display:block;width:100%;margin-top:12px;min-height:54px;border:2px solid var(--tinta);background:var(--cobalto);color:#fff;font-size:18px;font-weight:700;cursor:pointer;box-shadow:4px 4px 0 var(--tinta);text-align:center;text-decoration:none;padding:14px;font-family:inherit;border-radius:0}
+#evr .btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--tinta)}
+#evr .btn[disabled]{opacity:.75}
+#evr .err{color:var(--coral);font-size:14px;min-height:0;margin:6px 0 0}#evr .err:empty{display:none}
+#evr .chico{font-size:13px;line-height:1.4;color:var(--gris);margin:8px 0 0;text-align:center}
+#evr .resto{margin-top:30px;display:grid;gap:26px}
+#evr h2{font-size:clamp(22px,4vw,30px);line-height:1.15;margin:0 0 4px;letter-spacing:-.01em}
+#evr ol.pasos{margin:0;padding:0;list-style:none;counter-reset:p}
+#evr ol.pasos li{position:relative;padding:12px 0 12px 44px;border-bottom:1px dashed #d7d2c8;font-size:16.5px;line-height:1.45}#evr ol.pasos li:last-child{border-bottom:0}
+#evr ol.pasos li:before{counter-increment:p;content:counter(p);position:absolute;left:0;top:12px;width:30px;height:30px;display:grid;place-items:center;border:2px solid var(--tinta);background:var(--azulp);font:700 14px "Courier New",monospace}
+#evr .resenas{display:grid;gap:14px}
+#evr blockquote{margin:0;padding:14px 16px;background:var(--blanco);border:2px solid var(--tinta);border-left:8px solid var(--coral);font-size:16.5px;line-height:1.45}
+#evr blockquote footer{margin-top:8px;font:700 11px "Courier New",monospace;letter-spacing:.05em;text-transform:uppercase;color:var(--gris)}
+#evr .estrellas{font:700 12px "Courier New",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--coral);margin:0 0 10px}
+#evr .quien{font-size:16.5px;line-height:1.5;margin:0}
+#evr .aviso{margin-top:28px;font-size:12.5px;color:var(--gris);text-align:center;line-height:1.5}
+#evr .modal{position:fixed;inset:0;z-index:2147483000;background:rgba(32,35,41,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px}
+#evr .modal video{max-width:100%;max-height:calc(100vh - 90px);aspect-ratio:9/16;background:#000;border:2px solid #fff}
+#evr .modal button{margin-top:10px;min-height:44px;padding:0 18px;border:2px solid #fff;background:var(--cobalto);color:#fff;font:700 15px ui-sans-serif,-apple-system,Arial,sans-serif;cursor:pointer}
+@media (min-width:860px){
+ #evr .wrap{padding:22px 24px 64px}
+ #evr .hero{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:40px;align-items:start}
+ #evr .fila{gap:22px}#evr .vsl{flex-basis:200px;max-width:200px}#evr .sub{font-size:19px}
+ #evr .resto{grid-template-columns:1fr 1fr}
+ #evr .resto .ancho{grid-column:1/-1}
+ #evr .chip{font-size:12px}
+}
+@media (prefers-reduced-motion:reduce){#evr .btn{transition:none}}
+</style>
+<div id="evr">
+ <div class="wrap">
+  <div class="top">
+   <a class="brand" href="https://solucionesartificiales.com/" aria-label="Soluciones Artificiales, ir al inicio"><span class="mark" aria-hidden="true">SA</span><span>Soluciones<br>Artificiales</span></a>
+   <span class="chip">Clase · <span data-ev="fecha-corta">en 5 días</span> · 7 PM Miami</span>
+  </div>
+  <div class="hero">
+   <div>
+    <h1>Opera un negocio <em>desde donde quieras</em>, con agentes que trabajan por ti</h1>
+    <div class="fila">
+     <button type="button" class="vsl" data-ev-vsl="https://dvetencourt.github.io/sa-media/op90/evergreen/media/ev-registro-libertad.mp4" aria-label="Ver el video de Diego (37 segundos)">
+      <img src="https://dvetencourt.github.io/sa-media/op90/evergreen/media/ev-registro-poster.webp" alt="" width="360" height="640" decoding="async" fetchpriority="high">
+      <span class="play" aria-hidden="true">&#9654;</span><span class="dur">Mira 37 s</span>
+     </button>
+     <p class="sub">No necesitas más tiempo ni vivir donde está tu cliente. <b>Desde el día uno recibes agentes que ya ejecutan por ti</b>, y mi equipo te lleva de la mano para operarlos y revenderlos desde donde quieras, sin depender de nadie.</p>
+    </div>
+   </div>
+   <section class="win" id="registro" aria-labelledby="evr-t">
+    <div class="bar"><span id="evr-t">Reserva tu lugar</span><i aria-hidden="true"><b></b><b></b></i></div>
+    <div class="body">
+     <form id="ev-form" action="#" method="post" novalidate onsubmit="return false">
+      <p class="form-fecha">Tu clase: <b><span data-ev="fecha">en 5 días</span>, 7:00 PM hora de Miami</b><span data-ev="local"></span></p>
+      <label for="ev-n">Tu nombre</label><input id="ev-n" name="nombre" autocomplete="given-name" required>
+      <label for="ev-e">Tu correo</label><input id="ev-e" name="correo" type="email" inputmode="email" autocomplete="email" required>
+      <label for="ev-w">Tu WhatsApp</label>
+      <div class="tel"><select id="ev-cc" aria-label="Código de país"><option value="+1">+1 EE. UU. / Canadá</option><option value="+52">+52 México</option><option value="+58">+58 Venezuela</option><option value="+57">+57 Colombia</option><option value="+54">+54 Argentina</option><option value="+56">+56 Chile</option><option value="+51">+51 Perú</option><option value="+593">+593 Ecuador</option><option value="+503">+503 El Salvador</option><option value="+502">+502 Guatemala</option><option value="+504">+504 Honduras</option><option value="+505">+505 Nicaragua</option><option value="+506">+506 Costa Rica</option><option value="+507">+507 Panamá</option><option value="+1809">+1 Rep. Dominicana</option><option value="+591">+591 Bolivia</option><option value="+595">+595 Paraguay</option><option value="+598">+598 Uruguay</option><option value="+34">+34 España</option><option value="+0">Otro (escribe +código)</option></select><input id="ev-w" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="305 000 0000" required></div>
+      <p class="err" id="ev-err" role="alert"></p>
+      <button class="btn" type="submit">Reservar mi lugar en la clase</button>
+      <p class="chico">Te mando tu acceso personal por correo y WhatsApp.</p>
+     </form>
+    </div>
+   </section>
+  </div>
+
+  <div class="resto">
+   <section class="win ancho">
+    <div class="bar"><span>Lo que vas a ver en la clase</span><i aria-hidden="true"><b></b><b></b></i></div>
+    <div class="body">
+     <ol class="pasos">
+      <li><b>Qué son los agentes y qué hacen.</b> Te muestro trabajando una parte de los que usamos todos los días: contestan clientes, agendan citas y hacen el seguimiento.</li>
+      <li><b>Cómo se venden a un negocio real.</b> A quién le duele el problema y cómo se lo presentas con su propio caso.</li>
+      <li><b>Cómo los operas y los revendes desde el día uno.</b> De la mano de mi equipo y con lo que llevamos años enseñando a personas como tú. Desde donde quieras.</li>
+     </ol>
+    </div>
+   </section>
+   <section>
+    <p class="estrellas">4,6 de 5 en Trustpilot · 26 reseñas</p>
+    <div class="resenas">
+     <blockquote>«Esta academia no se enfoca simplemente en venderte un acceso y dejarte solo.»<footer>Salvador Delgado · Trustpilot · 6-oct-2026</footer></blockquote>
+     <blockquote>«No se queda solo en la teoría, sino que nos enseñan a aplicar las herramientas de IA en proyectos reales desde el primer día.»<footer>Yulia E. · Trustpilot · 6-oct-2026</footer></blockquote>
+    </div>
+   </section>
+   <section class="win">
+    <div class="bar"><span>Quién te da la clase</span><i aria-hidden="true"><b></b><b></b></i></div>
+    <div class="body">
+     <p class="quien">Soy Diego Vetencourt. Llevo años enseñando a personas sin experiencia técnica a trabajar con IA, y con mi equipo de Soluciones Artificiales instalamos agentes en negocios reales. En la clase te enseño lo mismo que le enseño a mis alumnos.</p>
+     <a class="btn" href="#registro">Reservar mi lugar</a>
+    </div>
+   </section>
+  </div>
+  <p class="aviso">Clase grabada en vivo que se transmite a una hora fija. Las reseñas son de alumnos reales; lo que logra cada persona depende de su trabajo. Esta clase no promete ingresos.</p>
+ </div>
+</div>
+<script>
+(function () {
+  if (window.__evRegistro) { window.__evRegistro.pintar(); return; }
+  var CFG = {
+    DIAS: 5, HORA_NY: 19,
+    HOOK_REGISTRO: 'https://services.leadconnectorhq.com/hooks/IawpuuJf69E9JJDhPPZi/webhook-trigger/edfd3d36-fb3c-4efc-8080-8b1dc7462aae',
+    PIXEL: '706725165238205', BASE: 'https://solucionesartificiales.com',
+    PREVIEW: { 'masterclass-confirmada': 'QIGk1D36HKexzmZ8Gpa3' }
+  };
+  /* Regla de fecha: copia exacta de evergreen.js (registro + 5 días, 7 PM New York; sábado/domingo → lunes). */
+  var DIAS_ES = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+  var MESES_ES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function ls(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+  function partesNY(ms) {
+    var f = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', hourCycle: 'h23', weekday: 'short' });
+    var o = {}; f.formatToParts(new Date(ms)).forEach(function (p) { o[p.type] = p.value; });
+    var dows = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+    return { y: +o.year, m: +o.month, d: +o.day, h: +o.hour % 24, mi: +o.minute, dow: dows[o.weekday] };
+  }
+  function instanteNY(y, m, d, h) { var objetivo = Date.UTC(y, m - 1, d, h), r = objetivo; for (var i = 0; i < 3; i++) { var p = partesNY(r); var dif = Date.UTC(p.y, p.m - 1, p.d, p.h, p.mi) - objetivo; if (!dif) break; r -= dif; } return r; }
+  function sumarDias(y, m, d, n) { var t = new Date(Date.UTC(y, m - 1, d + n)); return { y: t.getUTCFullYear(), m: t.getUTCMonth() + 1, d: t.getUTCDate(), dow: t.getUTCDay() }; }
+  function calcularClase(ahora) { var hoy = partesNY(ahora); var f = sumarDias(hoy.y, hoy.m, hoy.d, CFG.DIAS); if (f.dow === 6) f = sumarDias(f.y, f.m, f.d, 2); else if (f.dow === 0) f = sumarDias(f.y, f.m, f.d, 1); return f; }
+  function iso(f) { return f.y + '-' + pad(f.m) + '-' + pad(f.d); }
+  function textoFecha(f) { return DIAS_ES[f.dow] + ' ' + f.d + ' de ' + MESES_ES[f.m - 1]; }
+  function horaLocal(ms) { try { return new Intl.DateTimeFormat('es', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' }).format(new Date(ms)); } catch (e) { return ''; } }
+  function zonaLocal() { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { return ''; } }
+  function esNY() { var z = zonaLocal(); return z === 'America/New_York' || z === 'America/Detroit' || z === 'America/Toronto'; }
+  function url(ruta) { if (/\/preview\//.test(location.pathname) && CFG.PREVIEW[ruta]) return location.origin + '/preview/' + CFG.PREVIEW[ruta]; return CFG.BASE + '/' + ruta; }
+  var qs = new URLSearchParams(location.search);
+
+  function pintar() {
+    var f = calcularClase(Date.now()), inicio = instanteNY(f.y, f.m, f.d, CFG.HORA_NY), loc = horaLocal(inicio);
+    [].forEach.call(document.querySelectorAll('#evr [data-ev="fecha"]'), function (el) { el.textContent = textoFecha(f); });
+    [].forEach.call(document.querySelectorAll('#evr [data-ev="fecha-corta"]'), function (el) { el.textContent = DIAS_ES[f.dow].slice(0, 3) + ' ' + f.d + ' ' + MESES_ES[f.m - 1].slice(0, 3); });
+    [].forEach.call(document.querySelectorAll('#evr [data-ev="local"]'), function (el) { el.textContent = (loc && !esNY()) ? ' (en tu zona: ' + loc + ')' : ''; });
+  }
+  function fb(tipo, nombre, datos) {
+    try {
+      if (!window.fbq) { !function (f, b, e, v, n, t, s) { if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); }; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s); }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js'); window.fbq('init', CFG.PIXEL); }
+      window.fbq(tipo, nombre, datos || {});
+    } catch (e) { }
+  }
+
+  /* Envío: delegado en document (sobrevive a la hidratación de GHL). Mismo payload que evergreen.js. */
+  document.addEventListener('submit', function (e) {
+    var form = e.target; if (!form || form.id !== 'ev-form') return;
+    e.preventDefault(); e.stopPropagation();
+    var $ = function (id) { return document.getElementById(id); };
+    var n = $('ev-n').value.trim(), em = $('ev-e').value.trim(), err = $('ev-err');
+    var w = $('ev-w').value.trim().replace(/[^0-9+]/g, ''), cc = $('ev-cc').value;
+    if (cc !== '+0' && w[0] !== '+') { var nd = w.replace(/\D/g, ''); if (cc === '+1' && nd.length === 11 && nd[0] === '1') nd = nd.slice(1); if (cc === '+1809') { cc = '+1'; if (nd.length === 7) nd = '809' + nd; } w = cc + nd; }
+    if (!n) { err.textContent = 'Escribe tu nombre.'; $('ev-n').focus(); return; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { err.textContent = 'Revisa tu correo.'; $('ev-e').focus(); return; }
+    var dg = w.replace(/\D/g, ''); if (w[0] !== '+' || dg.length < 9 || dg.length > 15) { err.textContent = 'Revisa tu WhatsApp: elige el país y escribe el número completo.'; $('ev-w').focus(); return; }
+    w = '+' + dg; err.textContent = '';
+    var f2 = calcularClase(Date.now());
+    var d = new URLSearchParams({ nombre: n, correo: em, whatsapp: w, fecha_calc: iso(f2), fecha_texto: textoFecha(f2), variante: 'evergreen', zona: zonaLocal(), utm_source: qs.get('utm_source') || '', utm_medium: qs.get('utm_medium') || '', utm_campaign: qs.get('utm_campaign') || '', utm_content: qs.get('utm_content') || '', pagina: location.origin + location.pathname });
+    var btn = form.querySelector('button[type=submit]'); btn.disabled = true; btn.textContent = 'Reservando…';
+    try { fetch(CFG.HOOK_REGISTRO, { method: 'POST', mode: 'no-cors', keepalive: true, body: d }); } catch (x) { }
+    ls('ev_datos', JSON.stringify({ nombre: n, correo: em, whatsapp: w, d: iso(f2) }));
+    if (!ls('ev_lead_' + iso(f2))) { fb('track', 'Lead', { content_name: 'Webinar evergreen OP90' }); ls('ev_lead_' + iso(f2), '1'); }
+    var destino = url('masterclass-confirmada') + '?d=' + iso(f2);
+    var t0 = Date.now();
+    (function ir() { var listo = window.fbq && window.fbq.callMethod; if (listo || Date.now() - t0 > 1800) { setTimeout(function () { location.href = destino; }, listo ? 400 : 0); } else setTimeout(ir, 150); })();
+  }, true);
+
+  /* VSL con fachada: el video solo se descarga al tocar. */
+  document.addEventListener('click', function (e) {
+    var b = e.target && e.target.closest ? e.target.closest('[data-ev-vsl]') : null; if (!b) return;
+    e.preventDefault();
+    var raiz = document.getElementById('evr') || document.body;
+    var m = document.createElement('div'); m.className = 'modal'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true'); m.setAttribute('aria-label', 'Video de Diego');
+    var v = document.createElement('video'); v.src = b.getAttribute('data-ev-vsl'); v.controls = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.preload = 'auto'; v.autoplay = true;
+    var c = document.createElement('button'); c.type = 'button'; c.textContent = 'Cerrar y reservar mi lugar';
+    function cerrar() { try { v.pause(); } catch (x) { } m.remove(); var r = document.getElementById('registro'); if (r) { try { r.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (x) { } var i = document.getElementById('ev-n'); if (i) setTimeout(function () { i.focus(); }, 350); } }
+    c.addEventListener('click', cerrar); m.addEventListener('click', function (x) { if (x.target === m) cerrar(); });
+    v.addEventListener('ended', cerrar);
+    m.appendChild(v); m.appendChild(c); raiz.appendChild(m);
+    try { var p = v.play(); if (p && p.catch) p.catch(function () { }); } catch (x) { }
+    if (window.fbq) try { window.fbq('trackCustom', 'OP90_EvergreenVSL', { pagina: 'registro' }); } catch (x) { }
+  }, true);
+
+  try { document.title = 'Clase con Diego Vetencourt · Agentes de IA'; } catch (e) { }
+  window.__evRegistro = { pintar: pintar, calcularClase: calcularClase, iso: iso, textoFecha: textoFecha };
+  pintar();
+  /* GHL hidrata la página después: se repinta la fecha unos segundos por si el builder reescribe el bloque. */
+  var k = 0, iv = setInterval(function () { pintar(); if (++k > 16) clearInterval(iv); }, 500);
+  document.addEventListener('DOMContentLoaded', pintar); window.addEventListener('load', pintar);
+})();
+</script>

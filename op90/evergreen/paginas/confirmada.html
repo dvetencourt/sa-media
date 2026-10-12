@@ -1,0 +1,172 @@
+<!-- SA · Operador 90 · Evergreen · CONFIRMADA (/masterclass-confirmada) · v2 12-oct-2026
+     Va en UN elemento Custom HTML de GHL (se pinta desde el servidor).
+     Fuente: ChatGPT/webinar-evergreen/paginas/confirmada.html (copia en sa-media op90/evergreen/paginas/).
+     VSL: PLACEHOLDER H3 (reseña de Salvador, recortado) hasta que Diego grabe el guion de vsl/GUION-VSL-CONFIRMADA.md. -->
+<style>
+html,body{background:#fffaf2!important}
+#evc{--papel:#fffaf2;--blanco:#fff;--tinta:#202329;--cobalto:#234ddb;--coral:#bc442c;--azulp:#dce5ff;--coralp:#ffe3d9;--gris:#505966;font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--papel);color:var(--tinta);width:100vw;position:relative;left:50%;margin-left:-50vw;overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.45}
+#evc *{box-sizing:border-box}
+#evc .wrap{max-width:760px;margin:0 auto;padding:10px 16px 48px}
+#evc .top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+#evc .brand{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--tinta);font:700 10px/1.05 "Courier New",monospace;text-transform:uppercase;letter-spacing:.04em}
+#evc .mark{width:28px;height:28px;display:grid;place-items:center;border:2px solid var(--tinta);background:var(--coral);color:#fff;font:700 12px "Courier New",monospace;box-shadow:2px 2px 0 var(--tinta)}
+#evc .chip{font:700 11px "Courier New",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--coral)}
+#evc h1{font-size:clamp(28px,6.4vw,46px);line-height:1.06;letter-spacing:-.02em;margin:0 0 14px;text-wrap:balance}
+#evc h2{font-size:clamp(21px,4vw,28px);line-height:1.15;margin:0 0 6px}
+#evc .win{background:var(--blanco);border:2px solid var(--tinta);box-shadow:6px 6px 0 var(--tinta);margin-bottom:24px}
+#evc .bar{display:flex;justify-content:space-between;align-items:center;background:var(--cobalto);color:#fff;font:700 11px "Courier New",monospace;letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;border-bottom:2px solid var(--tinta)}
+#evc .bar i{display:inline-flex;gap:4px}#evc .bar i b{width:8px;height:8px;border:2px solid #fff;display:block}
+#evc .body{padding:14px 14px 16px}
+#evc .fecha{font-size:clamp(24px,5.4vw,36px);font-weight:800;line-height:1.1;margin:0 0 6px}
+#evc .local{font-size:15px;color:var(--gris);margin:0 0 4px}
+#evc .btns{display:grid;gap:10px;margin-top:12px}
+#evc .btn{display:block;width:100%;min-height:52px;border:2px solid var(--tinta);background:var(--cobalto);color:#fff;font-size:17px;font-weight:700;cursor:pointer;box-shadow:4px 4px 0 var(--tinta);text-align:center;text-decoration:none;padding:14px;font-family:inherit;border-radius:0}
+#evc .btn.sec{background:var(--blanco);color:var(--tinta)}
+#evc .btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--tinta)}
+#evc .fila{display:flex;gap:14px;align-items:center}
+#evc .vsl{position:relative;flex:0 0 40%;max-width:220px;aspect-ratio:9/16;border:2px solid var(--tinta);box-shadow:4px 4px 0 var(--tinta);background:#202329;padding:0;cursor:pointer;overflow:hidden;display:block}
+#evc .vsl img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+#evc .vsl .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:52px;height:52px;border:2px solid var(--tinta);background:var(--cobalto);color:#fff;display:grid;place-items:center;font-size:20px;box-shadow:3px 3px 0 var(--tinta)}
+#evc .vsl .dur{position:absolute;left:0;right:0;bottom:0;background:var(--tinta);color:#fff;font:700 10px "Courier New",monospace;letter-spacing:.05em;text-transform:uppercase;padding:5px 4px;text-align:center}
+#evc .vtexto{margin:0;font-size:16px;line-height:1.45}
+#evc ol.pasos{margin:0;padding:0;list-style:none;counter-reset:p}
+#evc ol.pasos li{position:relative;padding:12px 0 12px 44px;border-bottom:1px dashed #d7d2c8;font-size:16.5px;line-height:1.45}#evc ol.pasos li:last-child{border-bottom:0}
+#evc ol.pasos li:before{counter-increment:p;content:counter(p);position:absolute;left:0;top:12px;width:30px;height:30px;display:grid;place-items:center;border:2px solid var(--tinta);background:var(--azulp);font:700 14px "Courier New",monospace}
+#evc .resenas{display:grid;gap:14px}
+#evc blockquote{margin:0;padding:14px 16px;background:var(--blanco);border:2px solid var(--tinta);border-left:8px solid var(--coral);font-size:16.5px;line-height:1.45}
+#evc blockquote footer{margin-top:8px;font:700 11px "Courier New",monospace;letter-spacing:.05em;text-transform:uppercase;color:var(--gris)}
+#evc .estrellas{font:700 12px "Courier New",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--coral);margin:0 0 10px}
+#evc .aviso{margin-top:28px;font-size:12.5px;color:var(--gris);text-align:center;line-height:1.5}
+#evc .modal{position:fixed;inset:0;z-index:2147483000;background:rgba(32,35,41,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px}
+#evc .modal video{max-width:100%;max-height:calc(100vh - 90px);aspect-ratio:9/16;background:#000;border:2px solid #fff}
+#evc .modal button{margin-top:10px;min-height:44px;padding:0 18px;border:2px solid #fff;background:var(--cobalto);color:#fff;font:700 15px ui-sans-serif,-apple-system,Arial,sans-serif;cursor:pointer}
+@media (min-width:700px){#evc .wrap{padding:22px 24px 64px}#evc .btns{grid-template-columns:1fr 1fr}#evc .vtexto{font-size:18px}}
+</style>
+<div id="evc">
+ <div class="wrap">
+  <div class="top">
+   <a class="brand" href="https://solucionesartificiales.com/" aria-label="Soluciones Artificiales, ir al inicio"><span class="mark" aria-hidden="true">SA</span><span>Soluciones<br>Artificiales</span></a>
+   <span class="chip">Lugar confirmado</span>
+  </div>
+  <h1><span data-ev="saludo">Listo</span>, tu lugar quedó guardado</h1>
+
+  <section class="win">
+   <div class="bar"><span>Tu clase</span><i aria-hidden="true"><b></b><b></b></i></div>
+   <div class="body">
+    <p class="fecha">Tu clase es el <span data-ev="fecha">día que elegiste</span>, 7:00 PM hora de Miami</p>
+    <p class="local" data-ev="local"></p>
+    <div class="btns">
+     <a class="btn" data-ev="gcal" href="https://calendar.google.com/calendar/" target="_blank" rel="noopener">Agregar a Google Calendar</a>
+     <a class="btn sec" data-ev="ics" href="#" download="clase-diego.ics">Agregar a otro calendario</a>
+    </div>
+   </div>
+  </section>
+
+  <section class="win">
+   <div class="bar"><span>Antes de la clase, mira esto</span><i aria-hidden="true"><b></b><b></b></i></div>
+   <div class="body">
+    <div class="fila">
+     <button type="button" class="vsl" data-ev-vsl="https://dvetencourt.github.io/sa-media/op90/evergreen/media/ev-confirmada-placeholder.mp4" aria-label="Ver el video de Diego (31 segundos)">
+      <img src="https://dvetencourt.github.io/sa-media/op90/evergreen/media/ev-confirmada-poster.webp" alt="" width="360" height="640" decoding="async">
+      <span class="play" aria-hidden="true">&#9654;</span><span class="dur">Mira 31 s</span>
+     </button>
+     <p class="vtexto"><b>La idea de la clase es simple:</b> que veas cómo se opera un negocio con agentes desde donde quieras. Te muestro qué hacen, cómo se le venden a un negocio real y cómo empiezas a operarlos desde el día uno, de la mano de mi equipo.</p>
+    </div>
+   </div>
+  </section>
+
+  <section class="win">
+   <div class="bar"><span>3 pasos antes de la clase</span><i aria-hidden="true"><b></b><b></b></i></div>
+   <div class="body">
+    <ol class="pasos">
+     <li><b>Guarda la fecha y pon una alarma 5 minutos antes.</b> La clase empieza a la hora exacta y no se adelanta.</li>
+     <li><b>Busca mi correo y mi WhatsApp.</b> Ahí va tu acceso personal. Si el correo cayó en Promociones o Spam, muévelo a Principal para que te lleguen los avisos.</li>
+     <li><b>Piensa en un negocio que conozcas que responda tarde a sus clientes.</b> En la clase vas a ver qué haría un agente ahí y cómo lo ofreces tú, desde donde estés.</li>
+    </ol>
+   </div>
+  </section>
+
+  <section>
+   <p class="estrellas">Lo que cuentan los alumnos · 4,6 de 5 en Trustpilot</p>
+   <div class="resenas">
+    <blockquote>Tony Hurtado consiguió su primer cliente de IA al mes de empezar: una academia de básquet en Orlando.<footer>Tony Hurtado · entrevista en YouTube, 2025</footer></blockquote>
+    <blockquote>«Comencé estudiando hace más de 7 meses desde cero… ahora estoy dando cursos, ofreciendo servicios de IA para las empresas.»<footer>Nick Arvelo · testimonio en video, 2025</footer></blockquote>
+    <blockquote>«Sin su Mentoria no hubiese alcanzado lo que ahora he logrado con mi dedicacion y compromiso conmigo misma.»<footer>Lurdiana Bohórquez · Trustpilot · 7-oct-2026</footer></blockquote>
+   </div>
+  </section>
+  <p class="aviso">Clase grabada en vivo que se transmite a una hora fija. Resultados individuales, no típicos: lo que logra cada persona depende de su trabajo. Esta clase no promete ingresos.</p>
+ </div>
+</div>
+<script>
+(function () {
+  if (window.__evConfirmada) { window.__evConfirmada.pintar(); return; }
+  var CFG = { DIAS: 5, HORA_NY: 19 };
+  var DIAS_ES = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+  var MESES_ES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  var MESES_EN = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function ls(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function partesNY(ms) {
+    var f = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', hourCycle: 'h23', weekday: 'short' });
+    var o = {}; f.formatToParts(new Date(ms)).forEach(function (p) { o[p.type] = p.value; });
+    var dows = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+    return { y: +o.year, m: +o.month, d: +o.day, h: +o.hour % 24, mi: +o.minute, dow: dows[o.weekday] };
+  }
+  function instanteNY(y, m, d, h) { var objetivo = Date.UTC(y, m - 1, d, h), r = objetivo; for (var i = 0; i < 3; i++) { var p = partesNY(r); var dif = Date.UTC(p.y, p.m - 1, p.d, p.h, p.mi) - objetivo; if (!dif) break; r -= dif; } return r; }
+  function sumarDias(y, m, d, n) { var t = new Date(Date.UTC(y, m - 1, d + n)); return { y: t.getUTCFullYear(), m: t.getUTCMonth() + 1, d: t.getUTCDate(), dow: t.getUTCDay() }; }
+  function calcularClase(ahora) { var hoy = partesNY(ahora); var f = sumarDias(hoy.y, hoy.m, hoy.d, CFG.DIAS); if (f.dow === 6) f = sumarDias(f.y, f.m, f.d, 2); else if (f.dow === 0) f = sumarDias(f.y, f.m, f.d, 1); return f; }
+  function iso(f) { return f.y + '-' + pad(f.m) + '-' + pad(f.d); }
+  function textoFecha(f) { return DIAS_ES[f.dow] + ' ' + f.d + ' de ' + MESES_ES[f.m - 1]; }
+  function parseFecha(s) {
+    if (!s) return null; s = String(s).trim().toLowerCase();
+    var r = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/); if (r) return mk(+r[1], +r[2], +r[3]);
+    r = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/); if (r) return mk(+r[3], +r[1], +r[2]);
+    r = s.match(/^(\d{1,2})-(\d{1,2})-(\d{4})/); if (r) return mk(+r[3], +r[2], +r[1]);
+    r = s.match(/^([a-z]{3})[a-z]*\.?\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})/); if (r && MESES_EN.indexOf(r[1]) > -1) return mk(+r[3], MESES_EN.indexOf(r[1]) + 1, +r[2]);
+    return null;
+    function mk(y, m, d) { if (!y || m < 1 || m > 12 || d < 1 || d > 31) return null; var t = new Date(Date.UTC(y, m - 1, d)); return { y: y, m: m, d: d, dow: t.getUTCDay() }; }
+  }
+  function horaLocal(ms) { try { return new Intl.DateTimeFormat('es', { weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' }).format(new Date(ms)); } catch (e) { return ''; } }
+  function zonaLocal() { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { return ''; } }
+  function esNY() { var z = zonaLocal(); return z === 'America/New_York' || z === 'America/Detroit' || z === 'America/Toronto'; }
+  function stamp(ms) { return new Date(ms).toISOString().replace(/[-:]|\.\d{3}/g, ''); }
+  var qs = new URLSearchParams(location.search);
+  var datos = {}; try { datos = JSON.parse(ls('ev_datos')) || {}; } catch (e) { }
+
+  function pintar() {
+    var f = parseFecha(qs.get('d')) || parseFecha(datos.d) || calcularClase(Date.now());
+    var inicio = instanteNY(f.y, f.m, f.d, CFG.HORA_NY), fin = inicio + 2 * 3600000, loc = horaLocal(inicio);
+    var titulo = 'Clase con Diego Vetencourt · Agentes de IA', det = 'Tu acceso personal te llega por correo y WhatsApp.';
+    var gcal = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(titulo) + '&dates=' + stamp(inicio) + '/' + stamp(fin) + '&details=' + encodeURIComponent(det);
+    var ics = 'data:text/calendar;charset=utf-8,' + encodeURIComponent('BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Soluciones Artificiales//Clase//ES\r\nBEGIN:VEVENT\r\nUID:ev-' + iso(f) + '@solucionesartificiales.com\r\nDTSTAMP:' + stamp(Date.now()) + '\r\nDTSTART:' + stamp(inicio) + '\r\nDTEND:' + stamp(fin) + '\r\nSUMMARY:' + titulo + '\r\nDESCRIPTION:' + det + '\r\nBEGIN:VALARM\r\nTRIGGER:-PT5M\r\nACTION:DISPLAY\r\nDESCRIPTION:Tu clase empieza en 5 minutos\r\nEND:VALARM\r\nEND:VEVENT\r\nEND:VCALENDAR');
+    var nombre = (datos.nombre || '').trim().split(/\s+/)[0] || '';
+    nombre = nombre ? nombre.charAt(0).toUpperCase() + nombre.slice(1) : '';
+    [].forEach.call(document.querySelectorAll('#evc [data-ev="fecha"]'), function (el) { el.textContent = textoFecha(f); });
+    [].forEach.call(document.querySelectorAll('#evc [data-ev="saludo"]'), function (el) { el.textContent = nombre ? 'Listo, ' + nombre : 'Listo'; });
+    [].forEach.call(document.querySelectorAll('#evc [data-ev="local"]'), function (el) { el.textContent = (loc && !esNY()) ? 'En tu zona horaria: ' + loc + '.' : ''; });
+    [].forEach.call(document.querySelectorAll('#evc [data-ev="gcal"]'), function (el) { el.href = gcal; });
+    [].forEach.call(document.querySelectorAll('#evc [data-ev="ics"]'), function (el) { el.href = ics; });
+  }
+
+  document.addEventListener('click', function (e) {
+    var b = e.target && e.target.closest ? e.target.closest('[data-ev-vsl]') : null; if (!b) return;
+    e.preventDefault();
+    var raiz = document.getElementById('evc') || document.body;
+    var m = document.createElement('div'); m.className = 'modal'; m.setAttribute('role', 'dialog'); m.setAttribute('aria-modal', 'true'); m.setAttribute('aria-label', 'Video de Diego');
+    var v = document.createElement('video'); v.src = b.getAttribute('data-ev-vsl'); v.controls = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.preload = 'auto'; v.autoplay = true;
+    var c = document.createElement('button'); c.type = 'button'; c.textContent = 'Cerrar';
+    function cerrar() { try { v.pause(); } catch (x) { } m.remove(); }
+    c.addEventListener('click', cerrar); m.addEventListener('click', function (x) { if (x.target === m) cerrar(); });
+    v.addEventListener('ended', cerrar);
+    m.appendChild(v); m.appendChild(c); raiz.appendChild(m);
+    try { var p = v.play(); if (p && p.catch) p.catch(function () { }); } catch (x) { }
+    if (window.fbq) try { window.fbq('trackCustom', 'OP90_EvergreenVSL', { pagina: 'confirmada' }); } catch (x) { }
+  }, true);
+
+  try { document.title = 'Tu lugar está confirmado · Diego Vetencourt'; } catch (e) { }
+  window.__evConfirmada = { pintar: pintar };
+  pintar();
+  var k = 0, iv = setInterval(function () { pintar(); if (++k > 16) clearInterval(iv); }, 500);
+  document.addEventListener('DOMContentLoaded', pintar); window.addEventListener('load', pintar);
+})();
+</script>
