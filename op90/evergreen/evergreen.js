@@ -28,6 +28,7 @@
     // Chat de la sala: comentarios reales del vivo del 30-sep, remapeados al video final del 14-oct (trabajo/tramos-30fps.json).
     CHAT_URL: 'https://dvetencourt.github.io/sa-media/op90/evergreen/chat-30sep.json',
     CHAT_MAX: 60,            // mensajes visibles a la vez
+    CHAT_AL_ENTRAR: 8,       // al entrar tarde solo se ven los últimos 8 (como un chat en vivo real), luego se va llenando
     // Vista previa de GHL (embudo f1ZXlgaalQCwpoF6uyxt, sin dominio): ids de página para navegar entre pasos al probar.
     PREVIEW: { masterclass: 'cnweu7KmGn7VcqN5DDV1', 'masterclass-confirmada': 'QIGk1D36HKexzmZ8Gpa3', 'masterclass-sala': '8z1L3ObiK4e7W1vC0eDd', 'masterclass-replay': 'v7s8rUBzZaBcunhNez51' }
   };
@@ -119,7 +120,7 @@
     '#ev .err{color:var(--coral);font-size:15px;min-height:18px;margin:10px 0 0}#ev .chico{font-size:14px;line-height:1.5;color:var(--gris);margin:12px 0 0}' +
     '#ev .aviso{margin-top:32px;font-size:13px;color:var(--gris);text-align:center;line-height:1.5}' +
     '#ev .fecha{font-size:clamp(26px,4.4vw,40px);font-weight:800;line-height:1.1;margin:6px 0}#ev .local{font-size:17px;color:var(--gris)}' +
-    '#ev .video{position:relative;width:100%;aspect-ratio:16/9;background:#000;border:3px solid var(--tinta);box-shadow:8px 8px 0 var(--azulp);overflow:hidden}#ev .video>div,#ev .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}' +
+    '#ev .video{position:relative;width:100%;aspect-ratio:16/9;background:#000;border:3px solid var(--tinta);box-shadow:8px 8px 0 var(--azulp);overflow:hidden}#ev .video>div,#ev .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}#ev .video #ev-yt,#ev .video iframe#ev-yt{top:-62px;height:calc(100% + 124px)}#ev .escudo{position:absolute;inset:0;z-index:3;background:transparent;cursor:default}#ev .controles{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 0}#ev .controles button{font:inherit;font-weight:700;padding:8px 14px;border:2px solid var(--tinta);background:#fff;cursor:pointer}#ev .controles .t{font-variant-numeric:tabular-nums;color:var(--gris,#505966);margin-left:auto}' +
     '#ev .tapa{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(32,35,41,.82);color:#fff;text-align:center;padding:20px;z-index:3}#ev .tapa .btn{width:auto;display:inline-block;padding:14px 22px}' +
     '#ev .cuenta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}#ev .cuenta div{min-width:74px;border:2px solid #fff;padding:8px 6px;font:700 28px "Courier New",monospace}#ev .cuenta small{display:block;font-size:11px;letter-spacing:.08em}' +
     '#ev .estado{display:inline-flex;align-items:center;gap:8px;font:700 12px "Courier New",monospace;letter-spacing:.08em;text-transform:uppercase}#ev .punto{width:10px;height:10px;background:var(--coral);display:inline-block}' +
@@ -220,7 +221,7 @@
       '<h1>' + (esReplay ? 'La clase completa, disponible 48 horas' : 'Tu clase: ' + esc(textoFecha(f)) + ', 7:00 PM Miami') + '</h1>' +
       '<p class="sub">' + (esReplay ? 'Es la misma clase que se transmitió a tu hora. Al final te explico el siguiente paso.' : 'Es una clase grabada en vivo que se transmite a esta hora, como una clase con horario. Si llegas tarde, entras en el minuto en que va.') + '</p>' +
       '<div class="sala" id="ev-sala"><div class="col">' +
-      '<div class="video"><div id="ev-yt"></div><div class="tapa" id="ev-tapa"></div></div>' +
+      '<div class="video" id="ev-video"><div id="ev-yt"></div><div class="escudo oculto" id="ev-escudo" aria-hidden="true"></div><div class="tapa" id="ev-tapa"></div></div><div class="controles oculto" id="ev-ctrl"></div>' +
       '<div id="ev-oferta" class="oculto">' + win('Siguiente paso', '<h2>Agenda tu llamada con mi equipo</h2><p style="font-size:18px;line-height:1.5;margin:0 0 6px">Vemos tu caso, qué quieres lograr en los próximos 90 días y si Operador 90 tiene sentido para ti. Si no lo tiene, te lo decimos.</p><button class="btn" type="button" id="ev-agendar">Agendar mi llamada con el equipo</button><div class="cal oculto" id="ev-cal"><iframe title="Agenda" scrolling="no" id="j5jRGE57xpyhMZtXuix7_ev"></iframe></div>') + '</div>' +
       '</div><aside class="chat" id="ev-chat" aria-label="Chat de la clase"><div class="bar"><span>Chat de la clase</span><i aria-hidden="true"><b></b><b></b></i></div>' +
       '<p class="rotulo">Comentarios de la clase en vivo</p><div class="msgs" id="ev-msgs" role="log" aria-live="off"></div>' +
@@ -261,13 +262,29 @@
       }
       if (!listo) { tapa.innerHTML = '<p style="font-size:20px;margin:0"><span class="punto"></span> La clase está en curso</p><button class="btn" type="button" id="ev-play">▶ Entrar a la clase con sonido</button>'; document.getElementById('ev-play').onclick = function () { fb('trackCustom', 'OP90_WebinarAsistio', { minuto: Math.floor(ahoraProg() / 60) }); arrancar(ahoraProg()); }; clearInterval(timer); }
     }
+    // Controles propios: el video de YouTube queda recortado y tapado para que no se pueda abrir YouTube ni ver el título.
+    function montarControles() {
+      var esc = document.getElementById('ev-escudo'), c = document.getElementById('ev-ctrl'), caja = document.getElementById('ev-video');
+      esc.classList.remove('oculto'); c.classList.remove('oculto');
+      function b(txt, fn2, id) { var x = document.createElement('button'); x.type = 'button'; x.textContent = txt; if (id) x.id = id; x.onclick = fn2; c.appendChild(x); return x; }
+      function mm(t) { t = Math.max(0, Math.floor(t)); return Math.floor(t / 60) + ':' + pad(t % 60); }
+      if (esReplay) {
+        var bp = b('❚❚ Pausa', function () { var st = player.getPlayerState(); if (st === 1) { player.pauseVideo(); bp.textContent = '▶ Seguir'; } else { player.playVideo(); bp.textContent = '❚❚ Pausa'; } });
+        b('« 15 s', function () { player.seekTo(Math.max(0, player.getCurrentTime() - 15), true); });
+        b('15 s »', function () { player.seekTo(player.getCurrentTime() + 15, true); });
+      }
+      var bs = b('🔊 Sonido', function () { if (player.isMuted()) { player.unMute(); bs.textContent = '🔊 Sonido'; } else { player.mute(); bs.textContent = '🔇 Sin sonido'; } });
+      if (caja.requestFullscreen) b('⛶ Pantalla completa', function () { if (document.fullscreenElement) document.exitFullscreen(); else caja.requestFullscreen().catch(function () { }); });
+      var t = document.createElement('span'); t.className = 't'; c.appendChild(t);
+      setInterval(function () { try { t.textContent = mm(aPrograma(player.getCurrentTime())) + ' / ' + mm(DUR); } catch (e) { } }, 1000);
+    }
     function arrancar(prog) {
       tapa.innerHTML = '<p>Cargando la clase…</p>';
       cargarYT(function () {
         player = new YT.Player('ev-yt', {
-          videoId: CFG.YT_ID, playerVars: { autoplay: 1, controls: esReplay ? 1 : 0, disablekb: esReplay ? 0 : 1, modestbranding: 1, rel: 0, playsinline: 1, start: Math.floor(aFuente(Math.max(0, prog))) },
+          videoId: CFG.YT_ID, playerVars: { autoplay: 1, controls: 0, disablekb: 1, fs: 0, iv_load_policy: 3, modestbranding: 1, rel: 0, playsinline: 1, start: Math.floor(aFuente(Math.max(0, prog))) },
           events: {
-            onReady: function (ev) { listo = true; tapa.style.display = 'none'; ev.target.seekTo(aFuente(Math.max(0, esReplay ? prog : ahoraProg())), true); ev.target.playVideo(); setInterval(vigilar, 1000); },
+            onReady: function (ev) { listo = true; tapa.style.display = 'none'; montarControles(); ev.target.seekTo(aFuente(Math.max(0, esReplay ? prog : ahoraProg())), true); ev.target.playVideo(); setInterval(vigilar, 1000); },
             onStateChange: function (ev) { if (!esReplay && ev.data === 2) { /* pausa: al volver se resincroniza con la hora */ } if (!esReplay && ev.data === 1) { var p = ahoraProg(); if (Math.abs(aPrograma(player.getCurrentTime()) - p) > 8) player.seekTo(aFuente(p), true); } }
           }
         });
@@ -313,7 +330,7 @@
         propios.forEach(function (o) { if (p < 0 || o.t <= p) arr.push({ t: o.t, n: yo, m: o.m, yo: 1 }); });
         arr.sort(function (a, b) { return a.t - b.t; });
         if (p < 0) { var v = document.createElement('p'); v.className = 'vacio'; v.textContent = esReplay ? 'Los comentarios de la clase aparecen a su minuto cuando le das play.' : 'Los comentarios de la clase aparecen cuando empiece.'; caja.appendChild(v); }
-        arr.slice(-CFG.CHAT_MAX).forEach(function (o) { caja.appendChild(nodo(o, o.yo ? 'yo' : '')); });
+        arr.slice(-CFG.CHAT_AL_ENTRAR).forEach(function (o) { caja.appendChild(nodo(o, o.yo ? 'yo' : '')); });
         idx = 0; while (idx < LISTA.length && LISTA[idx].t <= p) idx++;
         abajo();
       }
