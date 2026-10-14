@@ -15,19 +15,17 @@
   var CFG = {
     DIAS: 5,                 // fijo: 5 días exactos (Diego, 12-oct). Si cambia, cambiar también el workflow de registro en GHL.
     HORA_NY: 19,             // 7:00 PM Miami
-    YT_ID: 'IlKhr02PMJg',    // PLACEHOLDER: grabación del 30-sep (sin editar). Reemplazar por el corte evergreen no listado.
-    // Tramos del video original que se reproducen, en segundos [inicio, fin]. Lo de afuera se salta.
-    // PROVISIONAL: arranca después de la espera inicial y termina antes de la oferta del 30-sep
-    // (precio 2.000 con fecha 2-oct, prohibido). Saltos cortos donde promete agentes por WhatsApp.
-    TRAMOS: [[100, 152], [164, 338], [357, 1516], [1534, 1739], [1743, 3016], [3022, 4905], [4911, 5082], [5087, 5337], [5341, 5364]],
-    OFERTA_EN: null,         // segundo del PROGRAMA donde empieza la oferta; null = al terminar el último tramo
+    YT_ID: 'IXvH718CN8g',    // Clase evergreen final (14-oct): vivo del 30-sep sin promesas de agentes regalados + cierre del clon. No listado.
+    // El video ya viene cortado: se reproduce entero (1:30:50). Cierre del clon desde 4848 s.
+    TRAMOS: [[0, 5450.8]],
+    OFERTA_EN: 4848,         // segundo donde empieza el cierre con la oferta (botón de agenda)
     REPLAY_HORAS: 48,
     HOOK_REGISTRO: 'https://services.leadconnectorhq.com/hooks/IawpuuJf69E9JJDhPPZi/webhook-trigger/edfd3d36-fb3c-4efc-8080-8b1dc7462aae',
     HOOK_SENALES: 'https://services.leadconnectorhq.com/hooks/IawpuuJf69E9JJDhPPZi/webhook-trigger/2c2820d8-dbcd-47f7-9895-afae7faea809',
     AGENDA: 'https://api.leadconnectorhq.com/widget/booking/j5jRGE57xpyhMZtXuix7',
     PIXEL: '706725165238205',
     BASE: 'https://solucionesartificiales.com',
-    // Chat de la sala: comentarios reales del vivo del 30-sep con su segundo del PROGRAMA (ya mapeado con TRAMOS). Si cambian TRAMOS, se regenera.
+    // Chat de la sala: comentarios reales del vivo del 30-sep, remapeados al video final del 14-oct (trabajo/tramos-30fps.json).
     CHAT_URL: 'https://dvetencourt.github.io/sa-media/op90/evergreen/chat-30sep.json',
     CHAT_MAX: 60,            // mensajes visibles a la vez
     // Vista previa de GHL (embudo f1ZXlgaalQCwpoF6uyxt, sin dominio): ids de página para navegar entre pasos al probar.
