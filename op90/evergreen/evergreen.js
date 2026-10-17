@@ -18,11 +18,13 @@
     YT_ID: 'IXvH718CN8g',    // Clase evergreen final (14-oct): vivo del 30-sep sin promesas de agentes regalados + cierre del clon. No listado.
     // El video ya viene cortado: se reproduce entero (1:30:50). Cierre del clon desde 4848 s.
     TRAMOS: [[0, 5450.8]],
+    AGENDA_EN: 2725,         // mitad de la clase: aparece el botón de agenda y el equipo lo escribe en el chat (Diego, 17-oct)
+    CHAT_AGENDA: [2725, 3900, 4878], // segundos donde «Equipo de Diego» escribe el link de agenda en el chat
     OFERTA_EN: 4848,         // segundo donde empieza el cierre con la oferta (botón de agenda)
     REPLAY_HORAS: 48,
     HOOK_REGISTRO: 'https://services.leadconnectorhq.com/hooks/IawpuuJf69E9JJDhPPZi/webhook-trigger/edfd3d36-fb3c-4efc-8080-8b1dc7462aae',
     HOOK_SENALES: 'https://services.leadconnectorhq.com/hooks/IawpuuJf69E9JJDhPPZi/webhook-trigger/2c2820d8-dbcd-47f7-9895-afae7faea809',
-    AGENDA: 'https://api.leadconnectorhq.com/widget/booking/j5jRGE57xpyhMZtXuix7',
+    AGENDA: 'https://api.leadconnectorhq.com/widget/booking/8Z9iAYTNJYKMyPNXaOIw', // calendario W (Diego, 17-oct)
     PIXEL: '706725165238205',
     BASE: 'https://solucionesartificiales.com',
     // Chat de la sala: comentarios reales del vivo del 30-sep, remapeados al video final del 14-oct (trabajo/tramos-30fps.json).
@@ -130,6 +132,8 @@
     '#ev .chat{display:flex;flex-direction:column;height:520px;background:var(--blanco);border:2px solid var(--tinta);box-shadow:6px 6px 0 var(--tinta)}#ev .chat .bar{flex:none}' +
     '#ev .rotulo{flex:none;margin:0;padding:6px 12px;font:700 11px "Courier New",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--gris);border-bottom:1px dashed #d7d2c8}' +
     '#ev .msgs{flex:1;min-height:0;overflow-y:auto;padding:8px 12px;overscroll-behavior:contain}#ev .msg{margin:0;padding:5px 0;font-size:15px;line-height:1.4;overflow-wrap:anywhere}#ev .msg b{margin-right:6px}' +
+    '#ev .msg.equipo{background:var(--cobalto);color:#fff;margin:6px -6px;padding:8px 10px}#ev .msg.equipo b{color:#fff}#ev .msg.equipo button{display:block;margin-top:8px;width:100%;min-height:44px;border:2px solid var(--tinta);background:#fff;color:var(--tinta);font-weight:700;font-size:15px;cursor:pointer}' +
+    '#ev .volver{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:rgba(32,35,41,.86);color:#fff;text-align:center;padding:16px}#ev .volver.oculto{display:none}#ev .volver .btn{width:auto;display:inline-block;padding:12px 20px;margin-top:0}#ev .avisomovil{font-size:13px;color:var(--gris,#505966);margin:8px 0 0}' +
     '#ev .msg.yo{background:var(--azulp);margin:4px -6px;padding:6px}#ev .msg.yo b{color:var(--cobalto)}#ev .msg.nota{font-size:13px;color:var(--gris);font-style:italic}#ev .vacio{font-size:14px;color:var(--gris);margin:8px 0}' +
     '#ev .escribir{flex:none;display:flex;gap:8px;padding:10px;border-top:2px solid var(--tinta);background:var(--papel)}#ev .escribir input{flex:1;min-width:0;min-height:44px;font-size:16px;background:var(--blanco)}' +
     '#ev .escribir button{flex:none;min-height:44px;padding:0 14px;border:2px solid var(--tinta);background:var(--cobalto);color:#fff;font-weight:700;font-size:15px;cursor:pointer}' +
@@ -221,7 +225,7 @@
       '<h1>' + (esReplay ? 'La clase completa, disponible 48 horas' : 'Tu clase: ' + esc(textoFecha(f)) + ', 7:00 PM Miami') + '</h1>' +
       '<p class="sub">' + (esReplay ? 'Es la misma clase que se transmitió a tu hora. Al final te explico el siguiente paso.' : 'Es una clase grabada en vivo que se transmite a esta hora, como una clase con horario. Si llegas tarde, entras en el minuto en que va.') + '</p>' +
       '<div class="sala" id="ev-sala"><div class="col">' +
-      '<div class="video" id="ev-video"><div id="ev-yt"></div><div class="escudo oculto" id="ev-escudo" aria-hidden="true"></div><div class="tapa" id="ev-tapa"></div></div><div class="controles oculto" id="ev-ctrl"></div>' +
+      '<div class="video" id="ev-video"><div id="ev-yt"></div><div class="escudo oculto" id="ev-escudo" aria-hidden="true"></div><div class="tapa" id="ev-tapa"></div><div class="volver oculto" id="ev-volver"><p style="margin:0;font-size:17px">La clase sigue en vivo</p><button class="btn" type="button" id="ev-volver-btn">▶ Volver a la clase</button></div></div><div class="controles oculto" id="ev-ctrl"></div>' + (!esReplay && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent || '') ? '<p class="avisomovil">Deja esta pantalla abierta. Si sales a otra app, al volver te llevo al minuto en vivo.</p>' : '') +
       '<div id="ev-oferta" class="oculto">' + win('Siguiente paso', '<h2>Agenda tu llamada con mi equipo</h2><p style="font-size:18px;line-height:1.5;margin:0 0 6px">Vemos tu caso, qué quieres lograr en los próximos 90 días y si Operador 90 tiene sentido para ti. Si no lo tiene, te lo decimos.</p><button class="btn" type="button" id="ev-agendar">Agendar mi llamada con el equipo</button><div class="cal oculto" id="ev-cal"><iframe title="Agenda" scrolling="no" id="j5jRGE57xpyhMZtXuix7_ev"></iframe></div>') + '</div>' +
       '</div><aside class="chat" id="ev-chat" aria-label="Chat de la clase"><div class="bar"><span>Chat de la clase</span><i aria-hidden="true"><b></b><b></b></i></div>' +
       '<p class="rotulo">Comentarios de la clase en vivo</p><div class="msgs" id="ev-msgs" role="log" aria-live="off"></div>' +
@@ -229,17 +233,20 @@
     );
     try { document.getElementById('ev').classList.add('conchat'); } catch (e) { }
     var tapa = document.getElementById('ev-tapa'), oferta = document.getElementById('ev-oferta');
-    function verOferta() { if (!oferta.classList.contains('oculto')) return; oferta.classList.remove('oculto'); senal('oferta'); fb('trackCustom', 'OP90_WebinarOferta', { modo: esReplay ? 'replay' : 'sala' }); }
-    document.getElementById('ev-agendar').addEventListener('click', function () {
-      senal('clic_agenda'); fb('trackCustom', 'OP90_WebinarClicAgenda', {});
+    var ofertaVista = false;
+    function verAgenda() { if (!oferta.classList.contains('oculto')) return; oferta.classList.remove('oculto'); fb('trackCustom', 'OP90_WebinarAgendaVisible', { modo: esReplay ? 'replay' : 'sala' }); }
+    function verOferta() { verAgenda(); if (ofertaVista) return; ofertaVista = true; senal('oferta'); fb('trackCustom', 'OP90_WebinarOferta', { modo: esReplay ? 'replay' : 'sala' }); }
+    function abrirAgenda(origen) { // botón bajo el video o botón del chat: abre el calendario W debajo del video, sin salir de la clase
+      verAgenda(); senal('clic_agenda'); fb('trackCustom', 'OP90_WebinarClicAgenda', { origen: origen || 'boton' });
       var cal = document.getElementById('ev-cal'), ifr = cal.querySelector('iframe');
       if (!ifr.src) { ifr.src = agendaSrc; var s = document.createElement('script'); s.src = 'https://link.msgsndr.com/js/form_embed.js'; document.body.appendChild(s); }
-      cal.classList.remove('oculto'); this.classList.add('oculto'); try { cal.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) { }
-    });
+      cal.classList.remove('oculto'); document.getElementById('ev-agendar').classList.add('oculto'); try { cal.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) { }
+    }
+    document.getElementById('ev-agendar').addEventListener('click', function () { abrirAgenda('boton'); });
     window.addEventListener('message', function (e) { if (e && e.data && e.data.op90 === 'agendo') senal('agendo_pagina'); });
 
     // Estado según la hora
-    var player = null, listo = false, timer = null, vistos = 0, ultimo = null;
+    var player = null, listo = false, timer = null, vistos = 0, ultimo = null, pausaTicks = 0;
     function ahoraProg() { return (Date.now() - inicio) / 1000; }
     function pintar() {
       var now = Date.now();
@@ -299,8 +306,15 @@
       if (estado === 1) { if (ultimo != null && s - ultimo > 0 && s - ultimo < 3) vistos += s - ultimo; ultimo = s; } else ultimo = null;
       if (!esReplay && vistos >= 60) senal('asistio', { minuto: Math.floor(p / 60) });
       if (p >= DUR * 0.5) senal('vio50');
+      if (p >= CFG.AGENDA_EN) verAgenda();
       if (p >= OFERTA - 2) verOferta();
+      if (!esReplay) { pausaTicks = (estado === 2 || estado === 5 || estado === -1) && p < DUR - 1 ? pausaTicks + 1 : 0; var vv = document.getElementById('ev-volver'); if (vv) vv.classList.toggle('oculto', pausaTicks < 3); }
     }
+    // Celular: si la persona sale a otra app, YouTube se pausa. Al volver, la llevo al minuto en vivo; si el teléfono no deja seguir solo, aparece «Volver a la clase».
+    function alVivo() { if (!player || !listo || esReplay) return; var p = ahoraProg(); if (p >= DUR) return; try { player.seekTo(aFuente(p), true); player.playVideo(); } catch (e) { } }
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) alVivo(); });
+    window.addEventListener('pageshow', function () { alVivo(); });
+    document.getElementById('ev-volver-btn').addEventListener('click', function () { try { player.unMute(); } catch (e) { } alVivo(); document.getElementById('ev-volver').classList.add('oculto'); });
     /* ---------- Chat de la sala ----------
        Muestra los comentarios REALES del vivo del 30-sep (chat-30sep.json) cuando el programa llega a su segundo «t».
        Lo que escribe el espectador se ve en su chat y va a GHL (webhook de señales) como evento «chat» para que responda el equipo.
@@ -309,7 +323,8 @@
       var caja = document.getElementById('ev-msgs'), salaEl = document.getElementById('ev-sala'), form = document.getElementById('ev-escribir'), campo = document.getElementById('ev-texto');
       if (!caja || !salaEl || !form) return;
       var CHAT_URL = /evergreen\.js(\?.*)?$/.test(SRC) ? SRC.replace(/evergreen\.js(\?.*)?$/, 'chat-30sep.json') : CFG.CHAT_URL;
-      var LISTA = [], propios = [], mostrado = -1, idx = 0, avisado = false, ultimoEnvio = 0;
+      var EQ = (CFG.CHAT_AGENDA || []).map(function (t, i) { return { t: t, eq: 1, m: i === 0 ? 'Si ya sabes que quieres que los agentes trabajen por ti, agenda aquí tu llamada con mi equipo. La clase sigue mientras eliges tu horario.' : 'El calendario para hablar con mi equipo está abierto. Toca el botón y elige tu horario sin salir de la clase.' }; });
+      var LISTA = EQ.slice(), propios = [], mostrado = -1, idx = 0, avisado = false, ultimoEnvio = 0;
       var cC = qs.get('c') || ls('ev_c'), cOK = !!(cC && /^[A-Za-z0-9]{8,40}$/.test(cC));
       var yo = cOK ? 'Tú' : (datos.nombre ? String(datos.nombre).split(' ')[0] : 'Tú');
       var kPropios = 'ev_chat_' + (cOK ? cC : 'anon') + '_' + iso(f);
@@ -320,7 +335,11 @@
         if (esReplay || Date.now() < inicio) return -1;
         return Math.min(DUR, (Date.now() - inicio) / 1000);
       }
-      function nodo(o, clase) { var p = document.createElement('p'); p.className = 'msg' + (clase ? ' ' + clase : ''); p.innerHTML = (o.n ? '<b>' + esc(o.n) + '</b>' : '') + esc(o.m); return p; }
+      function nodo(o, clase) {
+        var p = document.createElement('p');
+        if (o.eq) { p.className = 'msg equipo'; p.innerHTML = '<b>Equipo de Diego</b>' + esc(o.m); var bt = document.createElement('button'); bt.type = 'button'; bt.textContent = 'Agendar mi llamada'; bt.onclick = function () { abrirAgenda('chat'); }; p.appendChild(bt); return p; }
+        p.className = 'msg' + (clase ? ' ' + clase : ''); p.innerHTML = (o.n ? '<b>' + esc(o.n) + '</b>' : '') + esc(o.m); return p;
+      }
       function recortar() { var ms = caja.querySelectorAll('.msg'); for (var i = 0; i < ms.length - CFG.CHAT_MAX; i++) caja.removeChild(ms[i]); }
       function abajo() { caja.scrollTop = caja.scrollHeight; }
       function reconstruir(p) { // pinta de una vez lo que ya pasó (al entrar tarde o al saltar en la repetición)
@@ -331,6 +350,8 @@
         arr.sort(function (a, b) { return a.t - b.t; });
         if (p < 0) { var v = document.createElement('p'); v.className = 'vacio'; v.textContent = esReplay ? 'Los comentarios de la clase aparecen a su minuto cuando le das play.' : 'Los comentarios de la clase aparecen cuando empiece.'; caja.appendChild(v); }
         arr.slice(-CFG.CHAT_AL_ENTRAR).forEach(function (o) { caja.appendChild(nodo(o, o.yo ? 'yo' : '')); });
+        var ultEq = null; LISTA.forEach(function (o) { if (o.eq && o.t <= p) ultEq = o; }); // el aviso de agenda no se pierde al entrar tarde
+        if (ultEq && arr.slice(-CFG.CHAT_AL_ENTRAR).indexOf(ultEq) < 0) caja.appendChild(nodo(ultEq));
         idx = 0; while (idx < LISTA.length && LISTA[idx].t <= p) idx++;
         abajo();
       }
@@ -361,7 +382,7 @@
         if (!avisado || !ok) { avisado = true; caja.appendChild(nodo({ m: ok ? 'Tu mensaje le llegó al equipo de Diego. Te responden por WhatsApp.' : 'Para que el equipo te responda, entra desde el link personal que te llegó por correo o WhatsApp.' }, 'nota')); }
         abajo();
       });
-      try { fetch(CHAT_URL).then(function (r) { return r.ok ? r.json() : []; }).then(function (a) { if (Array.isArray(a)) { LISTA = a.filter(function (o) { return o && typeof o.t === 'number' && o.m; }).sort(function (x, y) { return x.t - y.t; }); mostrado = -1; tick(); } }).catch(function () { }); } catch (e) { }
+      try { fetch(CHAT_URL).then(function (r) { return r.ok ? r.json() : []; }).then(function (a) { if (Array.isArray(a)) { LISTA = a.filter(function (o) { return o && typeof o.t === 'number' && o.m; }).concat(EQ).sort(function (x, y) { return x.t - y.t; }); mostrado = -1; tick(); } }).catch(function () { }); } catch (e) { }
       tick(); setInterval(tick, 1000);
     }
     iniciarChat();
