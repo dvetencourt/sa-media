@@ -7,7 +7,7 @@
 
   var CFG = {
     PRECIO: true,        // Diego autorizó precio público solo en esta página (inst. desde USD 3.000) — confirmar
-    NOMBRES: false,      // testimonios con nombre real solo con permiso de cada cliente; mientras tanto, anónimos
+    NOMBRES: true,       // Diego, 18-oct: testimonios con nombre + Trustpilot + link a la lista de resultados
     FORM_ID: 'KCMtD2zwUa8HFxJJFnti', // «Productízate · Sí o No» → al enviar redirige al calendario «Llamada B2B» de Diego
     MEDIA: 'https://dvetencourt.github.io/sa-media/productizate/'
   };
@@ -28,7 +28,7 @@
     '#pz h2{font-size:clamp(28px,3.6vw,44px);line-height:1.1;margin:0 0 14px;text-wrap:balance}#pz h3{font-size:21px;line-height:1.2;margin:0 0 6px}' +
     '#pz .sub{font-size:clamp(18px,1.9vw,21px);color:var(--gris);max-width:34ch}' +
     '#pz .btn{display:inline-block;min-height:56px;border:2px solid var(--tinta);background:var(--cobalto);color:#fff;font-size:19px;font-weight:700;cursor:pointer;box-shadow:5px 5px 0 var(--tinta);text-align:center;text-decoration:none;padding:15px 26px;transition:transform .15s ease-out,box-shadow .15s ease-out}' +
-    '#pz .btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--tinta)}#pz .btn.chico{min-height:44px;font-size:15px;padding:10px 16px;box-shadow:4px 4px 0 var(--tinta)}' +
+    '#pz .btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--tinta)}#pz .btn.sec{background:var(--blanco);color:var(--tinta)}#pz .btn.chico{min-height:44px;font-size:15px;padding:10px 16px;box-shadow:4px 4px 0 var(--tinta)}' +
     '#pz .hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:40px;align-items:center;margin-top:36px;animation:pzin .55s ease-out both}' +
     '#pz .hero .acc{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:26px}#pz .hero .nota{font:700 12px "Courier New",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--gris)}' +
     '#pz .win{background:var(--blanco);border:2px solid var(--tinta);box-shadow:8px 8px 0 var(--tinta)}' +
@@ -54,9 +54,9 @@
     '@media (max-width:520px){#pz .top .btn{display:none}#pz .hero .btn{width:100%}#pz .body{padding:18px 16px}#pz ul.lista li{font-size:18px}}';
 
   var T = CFG.NOMBRES ? {
-    a: 'Ponciano Betancourt · dueño de Fortia, software, 120 personas, México',
+    a: 'Ponciano Betancourt · dueño de Fortia, empresa de software con 120 personas en México',
     b: 'Violeta Parilli · instalación en sesiones en vivo con Diego desde el 7 de octubre',
-    c: 'Susana Wise · psicóloga con consulta privada online'
+    c: 'Susana Wise · psicóloga con práctica privada online'
   } : {
     a: 'Dueño de una empresa de software · 120 personas · México',
     b: 'Emprendedora · su sistema se monta en sesiones en vivo con Diego',
@@ -109,11 +109,13 @@
 
     '<section class="blq"><span class="ceja">Ya lo estamos instalando</span><h2>Lo que dicen y lo que pasó.</h2>' +
       '<a class="tp" href="https://www.trustpilot.com/review/solucionesartificiales.com" target="_blank" rel="noopener"><span class="tpl"><span class="tpe">★ ★ ★ ★ ★</span><b>Reseñas reales en Trustpilot</b><small>De quienes ya trabajaron con Diego. Ábrelas y léelas tú.</small></span><span class="tpb">Ver reseñas →</span></a>' +
-      '<p class="intro" style="margin-top:34px">Y los primeros dueños de negocio que ya lo están instalando, sin nombres:</p>' +
+      '<p class="intro" style="margin-top:34px">Y los primeros dueños de negocio que ya lo están instalando:</p>' +
       '<div class="dos">' +
         win('Implementación · software', '<div class="caso"><p class="quien">' + esc(T.a) + '</p><p class="f">«Necesito pasar del creo al me consta.»</p><p>Cuando el concepto le hizo clic, el 8 de octubre: «Me gusta el concepto. Yo creo que pago por verlo.» Contrató su instalación.</p></div>') +
         win('Implementación · en curso', '<div class="caso"><p class="quien">' + esc(T.b) + '</p><p class="f">«Creo que no se me nota, pero yo estoy muy emocionada que le estamos haciendo esto.»</p><p>Y después, por mensaje: «Yo sé que ni siquiera lo hemos terminado de montar, pero es que te tengo que contar, porque es increíble además la sincronía.»</p></div>') +
-      '</div></section>' +
+      '</div>' +
+      '<p style="margin-top:30px"><a class="btn sec" href="https://solucionesartificiales.com/resultados" target="_blank" rel="noopener">Ver la lista de resultados →</a></p>' +
+      '</section>' +
 
     (CFG.PRECIO ? '<section class="blq"><span class="ceja">Inversión</span>' +
       win('Cuánto cuesta', '<div class="precio"><b>USD 3.000</b><span>la instalación arranca en</span></div><p style="font-size:18px;color:var(--gris);max-width:60ch">El monto exacto depende de tu negocio y lo defines con Diego en la llamada, antes de empezar. Sin sorpresas después.</p>') +
