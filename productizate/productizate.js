@@ -10,8 +10,8 @@
     NOMBRES: true,       // Diego, 18-oct: testimonios con nombre + Trustpilot + link a la lista de resultados
     FORM_ID: 'KCMtD2zwUa8HFxJJFnti', // «Productízate · Sí o No» → al enviar redirige al calendario «Llamada B2B» de Diego
     MEDIA: 'https://dvetencourt.github.io/sa-media/productizate/',
-    VSL_A: '',          // VSL de HeyGen editado con Oren (versión A): se llena cuando Diego lo aprueba
-    VSL_A_POSTER: ''
+    VSL_A: 'productizate-vsl-heygen.mp4',  // VSL de HeyGen (versión A), montado por orden de Diego 18-oct; se cambia por la edición de Oren cuando esté
+    VSL_A_POSTER: 'productizate-vsl-heygen-poster.jpg'
   };
   var SRC = (document.currentScript && document.currentScript.src) || '';
   if (/productizate\.js(\?.*)?$/.test(SRC)) CFG.MEDIA = SRC.replace(/productizate\.js(\?.*)?$/, '');
@@ -72,7 +72,7 @@
     return g;
   })();
   var VIDEO = VAR === 'a'
-    ? win('Diego · el video completo', '<video class="ancho" src="' + CFG.VSL_A + '" poster="' + CFG.VSL_A_POSTER + '" controls playsinline preload="metadata" aria-label="Video de Diego: qué es productizarte"></video>', 'vwin vancho')
+    ? win('Diego · 1 minuto', '<video class="ancho" src="' + CFG.MEDIA + CFG.VSL_A + '" poster="' + CFG.MEDIA + CFG.VSL_A_POSTER + '" controls playsinline preload="metadata" aria-label="Video de Diego: qué es productizarte"></video>', 'vwin vancho')
     : win('Un solo tú · 24 s', '<video src="' + CFG.MEDIA + 'productizate-animacion.mp4" poster="' + CFG.MEDIA + 'productizate-animacion-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Animación: un solo tú que nunca se detiene"></video>', 'vwin');
 
   var html =
