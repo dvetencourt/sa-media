@@ -18,6 +18,7 @@
   function win(titulo, cuerpo, extra) { return '<section class="win' + (extra ? ' ' + extra : '') + '"><div class="bar"><span>' + titulo + '</span><i aria-hidden="true"><b></b><b></b></i></div><div class="body">' + cuerpo + '</div></section>'; }
 
   var CSS = '#pz{--papel:#fffaf2;--blanco:#fff;--tinta:#202329;--cobalto:#234ddb;--coral:#bc442c;--azulp:#dce5ff;--coralp:#ffe3d9;--gris:#505966;font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--papel);color:var(--tinta);min-height:100vh;width:100vw;position:relative;left:50%;margin-left:-50vw;overflow-x:hidden;line-height:1.5}' +
+    '#pz h1,#pz h2,#pz h3{font-family:inherit;font-weight:800;color:var(--tinta);text-transform:none}#pz a{font-family:inherit}' +
     '#pz *{box-sizing:border-box}#pz p{margin:0}#pz .wrap{max-width:1040px;margin:0 auto;padding:18px 16px 72px}' +
     '#pz .top{display:flex;justify-content:space-between;align-items:center;gap:12px}' +
     '#pz .brand{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:6px 12px 6px 6px;border:2px solid var(--tinta);background:var(--blanco);box-shadow:4px 4px 0 var(--tinta);text-decoration:none;color:var(--tinta);font:700 11px/1.05 "Courier New",monospace;text-transform:uppercase;letter-spacing:.04em}' +
