@@ -47,6 +47,10 @@
     '#pz .voz{background:var(--coralp);border:2px solid var(--tinta);padding:16px 18px;box-shadow:5px 5px 0 var(--tinta)}#pz .voz .f{font-size:19px;font-weight:700;line-height:1.35}#pz .voz .q{font:700 11px/1.5 "Courier New",monospace;text-transform:uppercase;letter-spacing:.05em;color:var(--gris);margin-top:8px}' +
     '#pz .caso .quien{font:700 12px/1.5 "Courier New",monospace;text-transform:uppercase;letter-spacing:.05em;color:var(--coral);margin-bottom:10px}#pz .caso .f{font-size:22px;font-weight:700;line-height:1.3;margin:10px 0}#pz .caso p{font-size:17px;color:var(--gris);margin-top:8px}' +
     '#pz .tp{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;background:var(--blanco);border:2px solid var(--tinta);box-shadow:8px 8px 0 var(--tinta);padding:20px;text-decoration:none;color:var(--tinta);transition:transform .15s ease-out,box-shadow .15s ease-out}#pz .tp:hover{transform:translate(-2px,-2px);box-shadow:10px 10px 0 var(--tinta)}#pz .tpl{display:grid;gap:4px}#pz .tpe{color:#00b67a;font-size:24px;letter-spacing:2px}#pz .tp b{font-size:22px}#pz .tp small{font-size:16px;color:var(--gris)}#pz .tpb{border:2px solid var(--tinta);background:var(--cobalto);color:#fff;font-weight:700;padding:12px 18px;box-shadow:4px 4px 0 var(--tinta)}' +
+    '#pz .cuatro{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}#pz .cuatro .win{box-shadow:6px 6px 0 var(--tinta)}#pz .cuatro p,#pz .pasos p{font-size:17px;color:var(--gris)}#pz .pasos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}#pz .pasos .win{box-shadow:6px 6px 0 var(--tinta)}' +
+    '#pz .tabla{overflow-x:auto;border:2px solid var(--tinta);box-shadow:8px 8px 0 var(--tinta);background:var(--blanco)}#pz table{border-collapse:collapse;width:100%;min-width:560px}#pz th{background:var(--cobalto);color:#fff;font:700 12px "Courier New",monospace;letter-spacing:.06em;text-transform:uppercase;text-align:left;padding:10px 14px}#pz td{padding:14px;border-top:1px dashed #d7d2c8;font-size:16px;vertical-align:top}#pz td:nth-child(2){color:var(--gris)}@media (max-width:600px){#pz .tabla{overflow:visible;border:0;box-shadow:none;background:transparent}#pz table{min-width:0}#pz thead{display:none}#pz tbody,#pz tr,#pz td{display:block}#pz tr{background:var(--blanco);border:2px solid var(--tinta);box-shadow:5px 5px 0 var(--tinta);margin-bottom:16px;padding:6px 0}#pz td{border:0;padding:6px 14px}#pz td:before{content:attr(data-label);display:block;font:700 11px \"Courier New\",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--coral);margin-bottom:2px}#pz td:first-child:before{display:none}#pz td:first-child{font-size:18px;border-bottom:1px dashed #d7d2c8;padding-bottom:10px}}' +
+    '#pz .faq{display:grid;gap:14px}#pz details{background:var(--blanco);border:2px solid var(--tinta);box-shadow:5px 5px 0 var(--tinta)}#pz summary{cursor:pointer;padding:16px 18px;font-size:18px;font-weight:700;list-style:none}#pz summary::-webkit-details-marker{display:none}#pz summary:after{content:"+";float:right;color:var(--cobalto);font-weight:800}#pz details[open] summary:after{content:"–"}#pz details p{padding:0 18px 18px;font-size:17px;color:var(--gris);margin:0}' +
+    '@media (max-width:860px){#pz .cuatro,#pz .pasos{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (max-width:520px){#pz .cuatro,#pz .pasos{grid-template-columns:minmax(0,1fr)}}' +
     '#pz .precio{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin:4px 0 10px}#pz .precio b{font-size:clamp(40px,5vw,58px);line-height:1;letter-spacing:-.02em}#pz .precio span{font:700 13px "Courier New",monospace;text-transform:uppercase;letter-spacing:.06em;color:var(--gris)}' +
     '#pz .form .body{padding:8px}#pz .form iframe{display:block;width:100%;min-height:760px;border:0}' +
     '#pz .final{margin-top:84px;text-align:center}#pz .final h2{margin-bottom:22px}' +
@@ -77,48 +81,64 @@
 
     '<div class="hero' + (VAR === 'a' ? ' heroancho' : '') + '"><div>' +
       '<span class="ceja">Productízate · para dueños de negocio</span>' +
-      '<h1>Te instalamos <em>a ti</em> en una inteligencia artificial.</h1>' +
-      '<p class="sub">Lo que sabes de tu negocio sale de tu cabeza y queda trabajando con tus reglas, a su hora. Aunque tú no estés.</p>' +
+      '<h1>Tu propia agencia, <em>instalada</em> en tu negocio.</h1>' +
+      '<p class="sub">Convertimos lo que sabes en un equipo de inteligencia artificial que vende, responde y publica por ti. Sin aprender tecnología. Sin depender de nadie, ni de mí.</p>' +
       '<div class="acc"><a class="btn" href="#llamada">Quiero mi segundo cerebro</a></div>' +
+      '<p class="nota" style="margin-top:14px">Para profesionales que venden lo que saben y para empresas</p>' +
     '</div>' + VIDEO + '</div>' +
 
-    '<section class="blq"><span class="ceja">El problema</span><h2>Si tú no estás, tu negocio se apaga.</h2>' +
+    '<section class="blq"><span class="ceja">El problema</span><h2>Tu negocio funciona. Mientras tú estés encima.</h2>' +
       '<div class="dos">' +
-        win('¿Te pasa esto?', '<ul class="lista"><li>Si tú no estás, nada se mueve.</li><li>Escribes tú, respondes tú, vendes tú.</li><li>Tu equipo no piensa como tú y no tienes a nadie que te rete.</li><li>Todo lo que sabes vive en tu memoria. Solo funciona cuando estás despierto.</li></ul>') +
+        win('¿Te suena?', '<ul class="lista"><li>Tu agenda se llena de referidos, pero gente nueva casi no llega.</li><li>Escribes tú, respondes tú, vendes tú.</li><li>Le pagaste a una agencia, a un curso o a un asistente, y otra vez terminaste haciéndolo tú.</li><li>Todo lo que sabes vive en tu cabeza. Solo trabaja cuando estás despierto.</li></ul>') +
         '<div style="display:grid;gap:22px">' +
-          '<div class="voz"><p class="f">«Yo escribo todo, yo escribo todo.»</p><p class="q">Susana Wise · psicóloga con práctica privada online</p></div>' +
-          '<div class="voz"><p class="f">«Ha sido muy pesado vender los cursos. Muy pesado.»</p><p class="q">Susana Wise, en su llamada con Diego</p></div>' +
+          '<div class="voz"><p class="f">«Para que venga gente nueva me cuesta más.»</p><p class="q">Susana Wise · psicóloga clínica, práctica privada online</p></div>' +
+          '<div class="voz"><p class="f">«Con diferentes agencias… hay un factor común y soy yo, quizás soy yo.»</p><p class="q">Susana Wise, en su llamada con Diego</p></div>' +
+          '<div class="voz"><p class="f">«No tienes idea la cantidad de horas que he gastado.»</p><p class="q">Patrizia Cuggionni · coach</p></div>' +
         '</div>' +
       '</div></section>' +
 
-    '<section class="blq"><span class="ceja">Qué es</span><h2>Un segundo cerebro. Uno solo: tú.</h2>' +
-      '<p class="intro">No son mil versiones de ti ni una colección de herramientas. Es tu forma de pensar, de vender y de decidir, instalada y trabajando sin que se lo pidas.</p>' +
-      '<div class="tres">' +
-        win('01 · Piensa', '<h3>Piensa como tú</h3><p>Tus decisiones, tus reglas, tu forma de vender. Le preguntas lo que sea y te responde como tú.</p>') +
-        win('02 · Habla', '<h3>Habla como tú</h3><p>Escribe y responde en tu voz, con tus palabras. Nada suena a robot.</p>') +
-        win('03 · Te reta', '<h3>Te reta como un socio</h3><p>No es un espejo. Conoce tus números y te discute las decisiones antes de que las tomes.</p>') +
+    '<section class="blq"><span class="ceja">Por qué esto existe</span><h2>La gente no necesita aprender. Necesita agencia propia.</h2>' +
+      '<div class="dos">' +
+        '<div><p class="intro">Diego tuvo una agencia de automatización y una academia de inteligencia artificial. De las 534 personas que compraron su formación, solo 50 viven hoy de esto. No era falta de ganas: nadie tiene tiempo de aprenderlo todo encima de manejar su negocio.</p>' +
+        '<p class="intro">Así que comprimió cuatro años de agencia y de clases en un equipo de agentes que se instala en tu negocio y trabaja contigo desde el primer día.</p></div>' +
+        '<div class="cita" style="margin-top:0"><p class="f">«No contratar una agencia, sino agencia propia de poder hacerlo todo tú.»</p><p class="q">Diego Vetencourt</p></div>' +
       '</div></section>' +
 
-    '<section class="blq"><span class="ceja">Qué hace solo</span><h2>Trabaja a su hora. Tú decides qué.</h2>' +
-      win('Tu negocio, sin ti encima', '<ul class="lista"><li><b>Tu Instagram:</b> responde, da seguimiento y consigue citas.</li><li><b>Tu contenido:</b> programado semana tras semana.</li><li><b>Tus tareas:</b> dirigidas y revisadas sin que estés encima.</li><li><b>Tu gente:</b> atendida como la atenderías tú, a cualquier hora.</li></ul>') +
-    '</section>' +
+    '<section class="blq"><span class="ceja">Qué no es</span><h2>No es lo que ya probaste.</h2>' +
+      '<div class="cuatro">' +
+        win('No es una agencia', '<p>No pagas un retainer para esperar resultados que no ves. Lo que se instala lo manejas tú.</p>') +
+        win('No es un curso', '<p>No te pide ver clases. El equipo hace el trabajo contigo.</p>') +
+        win('No es un diagnóstico de un mes', '<p>Sales de la primera sesión con todo instalado y andando.</p>') +
+        win('No es un contrato', '<p>No dependes de Diego. «Esto es tuyo»: tu información y tu sistema.</p>') +
+      '</div></section>' +
 
-    '<section class="blq"><span class="ceja">Cómo lo instalamos</span><h2>Tres pasos. Contigo, no por ti.</h2>' +
-      '<div class="tres">' +
-        win('Paso 1', '<span class="num">REC ●</span><h3>Grabamos cómo lo haces</h3><p>Cómo vendes, cómo respondes y cómo decides sale de tu cabeza y entra al sistema.</p>') +
-        win('Paso 2', '<span class="num">habilidades.md</span><h3>Lo volvemos habilidades</h3><p>Lo que haces todos los días queda convertido en habilidades que la IA ejecuta con tus reglas.</p>') +
-        win('Paso 3', '<span class="num">⏱ programado</span><h3>Le ponemos un reloj</h3><p>Responde, da seguimiento y publica solo, a su hora. Tú revisas y ajustas.</p>') +
-      '</div>' +
-      '<div class="cita"><p class="f">«Yo estoy cansado de ser una agencia. Yo no soy una agencia.»</p><p class="q">Diego Vetencourt · cerró su agencia y su academia antes de construir esto</p></div>' +
-      '<p class="intro" style="margin-top:18px">No es un curso que te pide aprenderlo todo encima de manejar tu negocio. Tampoco una agencia que lo hace por ti y se queda con lo que sabe. Lo que se instala es tuyo y se queda trabajando para ti.</p>' +
+    '<section class="blq"><span class="ceja">Cómo funciona</span><h2>Una sesión para instalarlo. Tu negocio, de ahí en adelante.</h2>' +
+      '<div class="pasos">' +
+        win('Paso 1 · 1 hora en vivo', '<h3>Instalamos tu equipo</h3><p>Nos conectamos contigo y dejamos instalado tu segundo cerebro: cuatro años de agencia convertidos en habilidades listas para trabajar.</p>') +
+        win('Paso 2 · a tu ritmo', '<h3>Te entrevista para conocerte</h3><p>No escribes nada: le hablas. Tu historia, tus clientes, tu forma de vender, lo que quieres lograr. Es privado y queda solo para ti.</p>') +
+        win('Paso 3 · segunda sesión', '<h3>Armamos tu equipo y tu plan</h3><p>Contenido, anuncios, embudos, ventas y seguimiento. Cada uno con su tarea y con tus reglas.</p>') +
+        win('Todos los días', '<h3>Te dice qué hacer y lo ejecuta contigo</h3><p>Cada mañana te deja las tareas del día. Responde, da seguimiento y publica a su hora. Y te reta cuando una idea no se sostiene.</p>') +
+      '</div></section>' +
+
+    '<section class="blq"><span class="ceja">Antes y después</span><h2>Lo que cambia en cada parte de tu negocio.</h2>' +
+      '<div class="tabla"><table><thead><tr><th>Proceso</th><th>Hoy</th><th>Con tu segundo cerebro</th></tr></thead><tbody>' +
+        '<tr><td data-label="Proceso"><b>Clientes nuevos</b></td><td data-label="Hoy">Dependes de referidos y del boca a boca.</td><td data-label="Con tu segundo cerebro">Anuncios y prospección corriendo cada día, con tu mensaje.</td></tr>' +
+        '<tr><td data-label="Proceso"><b>Contenido</b></td><td data-label="Hoy">Publicas cuando te da tiempo, o no publicas.</td><td data-label="Con tu segundo cerebro">Piezas en tu voz, programadas semana tras semana.</td></tr>' +
+        '<tr><td data-label="Proceso"><b>Seguimiento</b></td><td data-label="Hoy">Mensajes que se enfrían en Instagram y WhatsApp.</td><td data-label="Con tu segundo cerebro">Nadie se queda sin respuesta: responde y agenda a su hora.</td></tr>' +
+        '<tr><td data-label="Proceso"><b>Embudo y página</b></td><td data-label="Hoy">Una agencia te cotiza miles y tarda semanas.</td><td data-label="Con tu segundo cerebro">Tu página, tu embudo y tus recordatorios, armados con tu equipo.</td></tr>' +
+        '<tr><td data-label="Proceso"><b>Tus decisiones</b></td><td data-label="Hoy">Decides solo, con lo que te dice tu instinto.</td><td data-label="Con tu segundo cerebro">Asesores con datos reales de otros negocios que te discuten antes de decidir.</td></tr>' +
+      '</tbody></table></div></section>' +
+
+    '<section class="blq"><span class="ceja">Qué incluye</span><h2>Todo lo que hace falta para que trabaje por ti.</h2>' +
+      win('Tu instalación', '<ul class="lista"><li><b>Tu segundo cerebro:</b> cuatro años de agencia y de clases convertidos en habilidades.</li><li><b>Tu equipo de agentes:</b> contenido, anuncios, embudos, ventas y seguimiento.</li><li><b>Tus asesores:</b> la experiencia real de otros negocios para retar tus ideas.</li><li><b>Tareas programadas:</b> trabajo que se hace solo, a su hora, todos los días.</li><li><b>USD 1.500 en créditos de inteligencia artificial</b> para empezar sin gastar en uso.</li><li><b>Tu CRM incluido</b> para tus contactos, agendas y recordatorios.</li><li><b>Dos sesiones en vivo con seguimiento</b>, y la comunidad de los miércoles para no quedarte atrás.</li></ul>') +
     '</section>' +
 
     '<section class="blq"><span class="ceja">Resultados reales</span><h2>Lo que pasa cuando ya está instalado.</h2>' +
       '<div class="dos">' +
-        win('Clínica de cirugía estética · Venezuela', '<div class="caso"><p class="quien">José Luis · reseña pública en Trustpilot</p><p>«Necesitábamos que los leads se asignaran solos a las asesoras de preventa, que pasaran limpiamente a posventa al cerrar la venta y que se repartieran de forma equitativa.»</p><p class="f">«El equipo comercial ahora trabaja más organizado y con menos tareas manuales.»</p><p>«Diego entendió rápido cómo funciona nuestro negocio… y cumple lo que promete.»</p></div>') +
-        win('Instalación en curso · sesiones en vivo', '<div class="caso"><p class="quien">' + esc(T.b) + '</p><p class="f">«Diego, yo no te puedo explicar de verdad lo que ha sido esto.»</p><p>«Yo sé que ni siquiera lo hemos terminado de montar, pero es que te tengo que contar, porque es increíble además la sincronía.»</p><p>Durante la instalación: «Creo que no se me nota, pero yo estoy muy emocionada que le estamos haciendo esto.»</p></div>') +
+        win('Psicoterapeuta · programa posparto', '<div class="caso"><p class="quien">Violeta Parilli · su sistema se monta en sesiones en vivo con Diego</p><p>Una agencia le cotizó <b>USD 5.500 recurrentes</b> por su proyecto. Su equipo de agentes se lo entregó <b>en una hora</b>.</p><p class="f">«Diego, yo no te puedo explicar de verdad lo que ha sido esto.»</p><p>«Yo sé que ni siquiera lo hemos terminado de montar, pero es que te tengo que contar.» Y una semana después: «Diego, he hecho tantas cosas.»</p></div>') +
+        win('Clínica de cirugía estética · Venezuela', '<div class="caso"><p class="quien">José Luis · reseña pública en Trustpilot</p><p>«Necesitábamos que los leads se asignaran solos a las asesoras de preventa, que pasaran limpiamente a posventa al cerrar la venta y que se repartieran de forma equitativa.»</p><p class="f">«El equipo comercial ahora trabaja más organizado y con menos tareas manuales.»</p></div>') +
         win('Empresa · Estados Unidos', '<div class="caso"><p class="quien">Adam Stramwasser · reseña pública en Trustpilot</p><p class="f">«Trabajar con Diego y su equipo fue realmente impactante para nuestro negocio.»</p><p>«No solo por el poder de las soluciones sino la perspectiva estratégica que nos dieron del negocio en general.»</p></div>') +
-        win('Caso cero · nuestro propio negocio', '<div class="caso"><p class="quien">Soluciones Artificiales · así opera hoy</p><p class="f">Diego cerró su agencia y convirtió cuatro años de trabajo en agentes.</p><p>Hoy los agentes responden los WhatsApp, le escriben a cada persona que se registra, le dan seguimiento hasta la llamada y le arman a Diego el reporte del día. Lo que te instalamos es lo mismo que usamos.</p></div>') +
+        win('Caso cero · nuestro propio negocio', '<div class="caso"><p class="quien">Soluciones Artificiales · así opera hoy</p><p class="f">Lo que te instalamos es lo mismo que usamos.</p><p>Los agentes responden los WhatsApp, le escriben a cada persona que se registra, le dan seguimiento hasta la llamada y le arman a Diego el reporte del día.</p></div>') +
       '</div>' +
       '<a class="tp" style="margin-top:34px" href="https://www.trustpilot.com/review/solucionesartificiales.com" target="_blank" rel="noopener"><span class="tpl"><span class="tpe">★ ★ ★ ★ ★</span><b>Todas las reseñas en Trustpilot</b><small>Clientes y alumnos de Diego, sin filtro. Ábrelas y léelas tú.</small></span><span class="tpb">Ver reseñas →</span></a>' +
       '<p style="margin-top:26px"><a class="btn sec" href="https://solucionesartificiales.com/resultados" target="_blank" rel="noopener">Ver la lista de resultados →</a></p>' +
@@ -126,16 +146,26 @@
 
     '<section class="blq"><span class="ceja">Por qué vale la inversión</span><h2>No compras una herramienta. Recuperas tu tiempo.</h2>' +
       '<div class="dos">' +
-        win('Autonomía desde el día uno', '<h3>Tu negocio deja de depender de que estés encima</h3><p>Desde la primera sesión sacamos de tu cabeza lo que solo tú sabes. Lo que se instala trabaja aunque no estés, y es tuyo.</p>') +
-        win('Más ingresos', '<h3>Ningún cliente se queda sin respuesta</h3><p>Tu sistema responde, da seguimiento y agenda a su hora, también de noche y el fin de semana. Las ventas que hoy se te escapan por no contestar a tiempo, dejan de escaparse.</p>') +
-        win('Menos costos', '<h3>Menos tareas manuales, menos gente para lo repetitivo</h3><p>Responder, dar seguimiento, programar contenido y revisar tareas lo hace el sistema. Tu equipo se dedica a lo que solo una persona puede hacer.</p>') +
-        win('Te cambia la vida', '<h3>Te vas y el otro tú sigue trabajando</h3><p>Viajas, te enfermas o simplemente duermes, y tu negocio no se apaga. Esa es la libertad que se compra aquí.</p>') +
+        win('Autonomía desde el día uno', '<h3>Tu negocio deja de depender de que estés encima</h3><p>Desde la primera sesión, lo que solo tú sabías queda trabajando aunque no estés. Y es tuyo.</p>') +
+        win('Más ingresos', '<h3>Ningún cliente se queda sin respuesta</h3><p>Responde, da seguimiento y agenda a su hora, también de noche y el fin de semana. Las ventas que hoy se escapan por no contestar a tiempo, dejan de escaparse.</p>') +
+        win('Menos costos', '<h3>Menos agencias, menos tareas manuales</h3><p>Lo que hoy le pagas a otros o haces tú a mano, lo hace tu equipo. Tu gente se dedica a lo que solo una persona puede hacer.</p>') +
+        win('Te cambia la vida', '<h3>Te vas y el otro tú sigue trabajando</h3><p>Viajas, descansas o te dedicas a tus clientes, y tu negocio no se apaga. Esa es la libertad que se compra aquí.</p>') +
       '</div>' +
-      (CFG.PRECIO ? '<div style="margin-top:34px">' + win('Cuánto cuesta', '<div class="precio"><b>USD 3.000</b><span>la instalación arranca en</span></div><p style="font-size:18px;color:var(--gris);max-width:60ch">El monto exacto depende de tu negocio y lo defines con Diego en la llamada, antes de empezar. Sin sorpresas después.</p>') + '</div>' : '') +
+      (CFG.PRECIO ? '<div style="margin-top:34px">' + win('Cuánto cuesta', '<div class="precio"><b>USD 3.000</b><span>la instalación arranca en</span></div><p style="font-size:18px;color:var(--gris);max-width:60ch">El monto exacto depende de tu negocio y lo defines en la llamada, antes de empezar. Sin sorpresas después.</p>') + '</div>' : '') +
     '</section>' +
 
+    '<section class="blq"><span class="ceja">Preguntas de verdad</span><h2>Lo que nos preguntan antes de empezar.</h2>' +
+      '<div class="faq">' +
+        '<details><summary>No sé nada de tecnología. ¿Esto es para mí?</summary><p>Sí. Como dijo Violeta: «yo de tecnología no sé, pero no tengo por qué saber». La instalación la hacemos contigo, en vivo, y después le hablas a tu equipo como le hablarías a una persona.</p></details>' +
+        '<details><summary>No tengo tiempo.</summary><p>Por eso existe. No hay clases que ver: necesitas una hora para la instalación y después le dictas, no le escribes. El trabajo lo hace tu equipo.</p></details>' +
+        '<details><summary>¿Qué pasa con mi información?</summary><p>Vive en tu computadora y es tuya. Diego no tiene acceso a tu entrevista ni a tus datos. Tú decides a qué le das acceso.</p></details>' +
+        '<details><summary>¿Y cuando la inteligencia artificial cambie?</summary><p>Tu equipo se actualiza, y todos los miércoles nos reunimos con la comunidad para ver qué cambió y qué hacer.</p></details>' +
+        '<details><summary>¿Qué necesito para la instalación?</summary><p>Una computadora, una hora y ganas de que tu negocio deje de depender de ti. Lo demás lo ponemos nosotros.</p></details>' +
+        '<details><summary>Tengo una empresa, no soy un profesional independiente.</summary><p>También aplica. En empresas empezamos por el proceso que más frena el crecimiento y lo mostramos antes y después, en tus propios números.</p></details>' +
+      '</div></section>' +
+
     '<section class="blq" id="llamada"><span class="ceja">Siguiente paso</span><h2>¿Te lo instalamos?</h2>' +
-      '<p class="intro">Respóndeme sí o no. Si tiene sentido para tu negocio, eliges tu hora con Diego en el paso siguiente. Si no lo tiene, te lo decimos.</p>' +
+      '<p class="intro">Respóndeme sí o no. Si tiene sentido para tu negocio, eliges tu hora en el paso siguiente y vemos juntos qué instalar primero. Si no lo tiene, te lo decimos.</p>' +
       win('Solicitar mi llamada', '<iframe src="https://api.leadconnectorhq.com/widget/form/' + CFG.FORM_ID + '?utm_source=productizate&utm_content=version-' + VAR + '" id="inline-' + CFG.FORM_ID + '" data-layout="{\'id\':\'INLINE\'}" data-trigger-type="alwaysShow" data-trigger-value="" data-activation-type="alwaysActivated" data-activation-value="" data-deactivation-type="neverDeactivate" data-deactivation-value="" data-form-name="Productízate · Sí o No" data-height="760" data-layout-iframe-id="inline-' + CFG.FORM_ID + '" data-form-id="' + CFG.FORM_ID + '" title="Productízate · Sí o No"></iframe>', 'form') +
     '</section>' +
 
