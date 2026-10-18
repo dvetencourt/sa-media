@@ -132,7 +132,7 @@
     var host = document.getElementById('pzhost');
     if (!host) { host = document.createElement('div'); host.id = 'pzhost'; document.body.insertBefore(host, document.body.firstChild); }
     if (document.getElementById('pz')) return;
-    var st = document.createElement('style'); st.textContent = CSS; document.head.appendChild(st);
+    var st = document.createElement('style'); st.textContent = CSS + 'html,body{background:#fffaf2!important}'; document.head.appendChild(st);
     var d = document.createElement('div'); d.id = 'pz'; d.innerHTML = html; host.appendChild(d);
     try { document.title = 'Productízate | Tu negocio trabajando sin ti encima'; } catch (e) { }
     var s = document.createElement('script'); s.src = 'https://link.msgsndr.com/js/form_embed.js'; s.async = true; document.body.appendChild(s);
