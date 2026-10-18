@@ -143,7 +143,13 @@
     '<footer class="pie"><span>Productízate es un servicio de Soluciones Artificiales</span><span>Diego Vetencourt</span></footer>' +
     '</div>';
 
-  function fbv(nombre) { try { if (window.fbq) window.fbq('trackCustom', nombre, { version: VAR }); } catch (e) { } }
+  /* Píxel SA: usa el de la página; si no está, lo carga (sin duplicar). */
+  function pixel() {
+    if (window.fbq) return;
+    !function (f, b, e, v, n, t, s) { if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); }; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s); }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+    window.fbq('init', '706725165238205'); window.fbq('track', 'PageView');
+  }
+  function fbv(nombre) { try { pixel(); window.fbq('trackCustom', nombre, { version: VAR }); } catch (e) { } }
   function montar() {
     var host = document.getElementById('pzhost');
     if (!host) { host = document.createElement('div'); host.id = 'pzhost'; document.body.insertBefore(host, document.body.firstChild); }
