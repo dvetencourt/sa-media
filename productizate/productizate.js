@@ -10,8 +10,8 @@
     NOMBRES: true,       // Diego, 18-oct: testimonios con nombre + Trustpilot + link a la lista de resultados
     FORM_ID: 'KCMtD2zwUa8HFxJJFnti', // «Productízate · Sí o No» → al enviar redirige al calendario «Llamada B2B» de Diego
     MEDIA: 'https://dvetencourt.github.io/sa-media/productizate/',
-    VSL_A: 'productizate-vsl-heygen.mp4',  // VSL de HeyGen (versión A), montado por orden de Diego 18-oct; se cambia por la edición de Oren cuando esté
-    VSL_A_POSTER: 'productizate-vsl-heygen-poster.jpg'
+    VSL_A: 'productizate-vsl-oren.mp4',  // VSL HeyGen editado con Oren (versión A), aprobado por Diego 18-oct
+    VSL_A_POSTER: 'productizate-vsl-oren-poster.jpg'
   };
   var SRC = (document.currentScript && document.currentScript.src) || '';
   if (/productizate\.js(\?.*)?$/.test(SRC)) CFG.MEDIA = SRC.replace(/productizate\.js(\?.*)?$/, '');
