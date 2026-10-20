@@ -22,6 +22,12 @@
     CHAT_AGENDA: [2725, 3900, 4878], // segundos donde «Equipo de Diego» escribe el link de agenda en el chat
     OFERTA_EN: 4848,         // segundo donde empieza el cierre con la oferta (botón de agenda)
     REPLAY_HORAS: 48,
+    // A/B de la espera (Diego, 20-oct: «¿por qué no A/B testeamos 1 min vs 2 días?»). 'ya' = la clase arranca en el próximo turno de 15 min (mínimo 10 min después del registro); '2d' = en 2 días a las 7 PM.
+    // AB_ACTIVO en false: todos siguen con DIAS. Se fuerza una versión con ?v=ya o ?v=2d para probar.
+    AB_ACTIVO: false,
+    AB_DIAS: 2,
+    YA_MIN: 10,
+    YA_TURNO: 15,
     HOOK_REGISTRO: 'https://services.leadconnectorhq.com/hooks/IawpuuJf69E9JJDhPPZi/webhook-trigger/edfd3d36-fb3c-4efc-8080-8b1dc7462aae',
     HOOK_SENALES: 'https://services.leadconnectorhq.com/hooks/IawpuuJf69E9JJDhPPZi/webhook-trigger/2c2820d8-dbcd-47f7-9895-afae7faea809',
     AGENDA: 'https://api.leadconnectorhq.com/widget/booking/8Z9iAYTNJYKMyPNXaOIw', // calendario W (Diego, 17-oct)
@@ -66,15 +72,30 @@
     return r;
   }
   function sumarDias(y, m, d, n) { var t = new Date(Date.UTC(y, m - 1, d + n)); return { y: t.getUTCFullYear(), m: t.getUTCMonth() + 1, d: t.getUTCDate(), dow: t.getUTCDay() }; }
-  function calcularClase(ahora) { // regla de Diego (12-oct, 7:45 PM): «5 días hasta el webinar, punto y final». Registro + 5, también sábado o domingo.
-    var hoy = partesNY(ahora);
-    return sumarDias(hoy.y, hoy.m, hoy.d, CFG.DIAS);
+  function versionAB() { // 'ya' | '2d' | '' (sin prueba)
+    var v = (qs.get('v') || '').toLowerCase();
+    if (v === 'ya' || v === '2d') { ls('ev_v', v); return v; }
+    if (!CFG.AB_ACTIVO) return '';
+    v = ls('ev_v'); if (v === 'ya' || v === '2d') return v;
+    v = Math.random() < 0.5 ? 'ya' : '2d'; ls('ev_v', v); return v;
   }
+  function calcularClase(ahora, v) { // regla de Diego (12-oct, 7:45 PM): «5 días hasta el webinar, punto y final». Registro + 5, también sábado o domingo.
+    var hoy = partesNY(ahora);
+    if (v === 'ya') { // próximo turno de YA_TURNO minutos, al menos YA_MIN minutos después de ahora
+      var turno = CFG.YA_TURNO * 60000, t = Math.ceil((ahora + CFG.YA_MIN * 60000) / turno) * turno, p = partesNY(t);
+      var x = sumarDias(p.y, p.m, p.d, 0); x.h = p.h; x.mi = p.mi; return x;
+    }
+    return sumarDias(hoy.y, hoy.m, hoy.d, v === '2d' ? CFG.AB_DIAS : CFG.DIAS);
+  }
+  function inicioDe(f, hQA) { var h = hQA != null ? hQA : (f.h != null ? f.h : CFG.HORA_NY); return instanteNY(f.y, f.m, f.d, h) + (f.h != null && hQA == null ? (f.mi || 0) * 60000 : 0); }
+  function textoHora(f) { var h = f.h != null ? f.h : CFG.HORA_NY, mi = f.h != null ? (f.mi || 0) : 0; return (h % 12 || 12) + ':' + pad(mi) + ' ' + (h < 12 ? 'AM' : 'PM'); }
+  function dParam(f) { return iso(f) + (f.h != null ? 'T' + pad(f.h) + ':' + pad(f.mi || 0) : ''); }
   function iso(f) { return f.y + '-' + pad(f.m) + '-' + pad(f.d); }
   function textoFecha(f) { return DIAS_ES[f.dow] + ' ' + f.d + ' de ' + MESES_ES[f.m - 1]; }
   function parseFecha(s) { // acepta 2026-10-16, 10/16/2026, 16-10-2026, Oct 16th 2026, October 16, 2026
     if (!s) return null; s = String(s).trim().toLowerCase();
-    var r = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/); if (r) return mk(+r[1], +r[2], +r[3]);
+    var r = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})[t ](\d{1,2}):(\d{2})/); if (r) { var x = mk(+r[1], +r[2], +r[3]); if (x && +r[4] < 24 && +r[5] < 60) { x.h = +r[4]; x.mi = +r[5]; } return x; }
+    r = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/); if (r) return mk(+r[1], +r[2], +r[3]);
     r = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/); if (r) return mk(+r[3], +r[1], +r[2]);
     r = s.match(/^(\d{1,2})-(\d{1,2})-(\d{4})/); if (r) return mk(+r[3], +r[2], +r[1]);
     r = s.match(/^([a-z]{3})[a-z]*\.?\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})/); if (r && MESES_EN.indexOf(r[1]) > -1) return mk(+r[3], MESES_EN.indexOf(r[1]) + 1, +r[2]);
@@ -149,14 +170,14 @@
   /* ---------- Página: registro (/masterclass) ---------- */
   function registro() {
     pixel();
-    var f = calcularClase(Date.now()), inicio = instanteNY(f.y, f.m, f.d, CFG.HORA_NY);
+    var V = versionAB(), f = calcularClase(Date.now(), V), inicio = inicioDe(f);
     var paises = [['+1', '+1 EE. UU. / Canadá'], ['+52', '+52 México'], ['+58', '+58 Venezuela'], ['+57', '+57 Colombia'], ['+54', '+54 Argentina'], ['+56', '+56 Chile'], ['+51', '+51 Perú'], ['+593', '+593 Ecuador'], ['+503', '+503 El Salvador'], ['+502', '+502 Guatemala'], ['+504', '+504 Honduras'], ['+505', '+505 Nicaragua'], ['+506', '+506 Costa Rica'], ['+507', '+507 Panamá'], ['+1809', '+1 Rep. Dominicana'], ['+591', '+591 Bolivia'], ['+595', '+595 Paraguay'], ['+598', '+598 Uruguay'], ['+34', '+34 España'], ['+0', 'Otro (escribe +código)']];
     marco(
-      '<span class="ceja">Clase gratuita · ' + esc(textoFecha(f)) + ' · 7:00 PM Miami</span>' +
+      '<span class="ceja">Clase gratuita · ' + (V === 'ya' ? 'empieza en minutos' : esc(textoFecha(f)) + ' · ' + textoHora(f) + ' Miami') + '</span>' +
       '<h1>Mira cómo se instala y se vende un agente de IA a un negocio real</h1>' +
       '<p class="sub">Te muestro mis agentes trabajando sobre un negocio de verdad y cómo ese trabajo se convierte en un servicio que ofreces tú, sin programar y desde donde estés.</p>' +
       win('Reserva tu lugar', '<form id="ev-form" novalidate>' +
-        '<p style="margin:0 0 4px;font-size:17px">Tu clase es el <b>' + esc(textoFecha(f)) + ' a las 7:00 PM hora de Miami</b>' + (horaLocal(inicio) ? ' <span class="local">(en tu zona: ' + esc(horaLocal(inicio)) + ')</span>' : '') + '.</p>' +
+        '<p style="margin:0 0 4px;font-size:17px">' + (V === 'ya' ? 'Tu clase <b>empieza en unos minutos</b>: te reservas y entras directo a la sala' : 'Tu clase es el <b>' + esc(textoFecha(f)) + ' a las ' + textoHora(f) + ' hora de Miami</b>') + '' + (horaLocal(inicio) ? ' <span class="local">(en tu zona: ' + esc(horaLocal(inicio)) + ')</span>' : '') + '.</p>' +
         '<label for="ev-n">Tu nombre</label><input id="ev-n" autocomplete="given-name" required>' +
         '<label for="ev-e">Tu correo</label><input id="ev-e" type="email" autocomplete="email" required>' +
         '<label for="ev-w">Tu WhatsApp</label><div class="tel"><select id="ev-cc" aria-label="Código de país">' + paises.map(function (p) { return '<option value="' + p[0] + '">' + esc(p[1]) + '</option>'; }).join('') + '</select><input id="ev-w" type="tel" autocomplete="tel-national" placeholder="305 000 0000" required></div>' +
@@ -175,13 +196,14 @@
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { err.textContent = 'Revisa tu correo.'; return; }
       var dg = w.replace(/\D/g, ''); if (w[0] !== '+' || dg.length < 9 || dg.length > 15) { err.textContent = 'Revisa tu WhatsApp: elige el país y escribe el número completo.'; return; }
       w = '+' + dg; err.textContent = '';
-      var f2 = calcularClase(Date.now());
-      var d = new URLSearchParams({ nombre: n, correo: em, whatsapp: w, fecha_calc: iso(f2), fecha_texto: textoFecha(f2), variante: 'evergreen', zona: zonaLocal(), utm_source: qs.get('utm_source') || '', utm_medium: qs.get('utm_medium') || '', utm_campaign: qs.get('utm_campaign') || '', utm_content: qs.get('utm_content') || '', pagina: location.origin + location.pathname });
+      var f2 = calcularClase(Date.now(), V);
+      var d = new URLSearchParams({ nombre: n, correo: em, whatsapp: w, fecha_calc: iso(f2), fecha_hora: dParam(f2), fecha_texto: V === 'ya' ? 'hoy a las ' + textoHora(f2) : textoFecha(f2), hora_texto: textoHora(f2), variante: V ? 'evergreen-' + V : 'evergreen', version_ab: V || 'sin-prueba', zona: zonaLocal(), utm_source: qs.get('utm_source') || '', utm_medium: qs.get('utm_medium') || '', utm_campaign: qs.get('utm_campaign') || '', utm_content: qs.get('utm_content') || '', pagina: location.origin + location.pathname });
       var btn = e.target.querySelector('button'); btn.disabled = true; btn.textContent = 'Reservando…';
       try { fetch(CFG.HOOK_REGISTRO, { method: 'POST', mode: 'no-cors', body: d }); } catch (x) { }
-      ls('ev_datos', JSON.stringify({ nombre: n, correo: em, whatsapp: w, d: iso(f2) }));
+      ls('ev_datos', JSON.stringify({ nombre: n, correo: em, whatsapp: w, d: dParam(f2), v: V }));
+      if (V) fb('trackCustom', 'OP90_WebinarVersion', { version: V });
       if (!ls('ev_lead_' + iso(f2))) { fb('track', 'Lead', { content_name: 'Webinar evergreen OP90' }); ls('ev_lead_' + iso(f2), '1'); }
-      setTimeout(function () { location.href = url('masterclass-confirmada') + '?d=' + iso(f2); }, 700);
+      setTimeout(function () { location.href = V === 'ya' ? url('masterclass-sala') + '?d=' + encodeURIComponent(dParam(f2)) + '&v=ya' : url('masterclass-confirmada') + '?d=' + iso(f2); }, 700);
     });
   }
 
@@ -189,15 +211,15 @@
   function confirmada() {
     pixel();
     var f = parseFecha(qs.get('d')) || (function () { try { return parseFecha(JSON.parse(ls('ev_datos')).d); } catch (e) { return null; } })() || calcularClase(Date.now());
-    var inicio = instanteNY(f.y, f.m, f.d, CFG.HORA_NY), fin = inicio + 2 * 3600000;
+    var inicio = inicioDe(f), fin = inicio + 2 * 3600000;
     // El evento del calendario lleva el link de la sala (Diego, 18-oct: «debería incluir el link de la sala»)
-    var cSala = qs.get('c') || ls('ev_c'), salaLink = CFG.BASE + '/masterclass-sala?d=' + iso(f) + (cSala && /^[A-Za-z0-9]{8,40}$/.test(cSala) ? '&c=' + cSala : '');
+    var cSala = qs.get('c') || ls('ev_c'), salaLink = CFG.BASE + '/masterclass-sala?d=' + encodeURIComponent(dParam(f)) + (cSala && /^[A-Za-z0-9]{8,40}$/.test(cSala) ? '&c=' + cSala : '');
     var detalle = 'Entra a tu clase aquí, a la hora exacta:\n' + salaLink + '\n\nGuarda este link. También te llega por correo y WhatsApp.';
     var gcal = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent('Clase con Diego Vetencourt · Agentes de IA') + '&dates=' + new Date(inicio).toISOString().replace(/[-:]|\.\d{3}/g, '') + '/' + new Date(fin).toISOString().replace(/[-:]|\.\d{3}/g, '') + '&details=' + encodeURIComponent(detalle) + '&location=' + encodeURIComponent(salaLink);
     var ics = 'data:text/calendar;charset=utf-8,' + encodeURIComponent('BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Soluciones Artificiales//Clase//ES\r\nBEGIN:VEVENT\r\nUID:ev-' + iso(f) + '@solucionesartificiales.com\r\nDTSTAMP:' + new Date().toISOString().replace(/[-:]|\.\d{3}/g, '') + '\r\nDTSTART:' + new Date(inicio).toISOString().replace(/[-:]|\.\d{3}/g, '') + '\r\nDTEND:' + new Date(fin).toISOString().replace(/[-:]|\.\d{3}/g, '') + '\r\nSUMMARY:Clase con Diego Vetencourt · Agentes de IA\r\nDESCRIPTION:' + detalle.replace(/\n/g, '\\n') + '\r\nLOCATION:' + salaLink + '\r\nURL:' + salaLink + '\r\nEND:VEVENT\r\nEND:VCALENDAR');
     marco(
       '<h1>Listo, tu lugar quedó confirmado</h1>' +
-      win('Tu clase', '<p class="fecha">' + esc(textoFecha(f)) + '<br>7:00 PM hora de Miami</p>' + (horaLocal(inicio) ? '<p class="local">En tu zona horaria: ' + esc(horaLocal(inicio)) + '.</p>' : '') +
+      win('Tu clase', '<p class="fecha">' + esc(textoFecha(f)) + '<br>' + textoHora(f) + ' hora de Miami</p>' + (horaLocal(inicio) ? '<p class="local">En tu zona horaria: ' + esc(horaLocal(inicio)) + '.</p>' : '') +
         '<a class="btn" href="' + gcal + '" target="_blank" rel="noopener">Agregar a Google Calendar</a><a class="btn sec" href="' + ics + '" download="clase-diego.ics">Agregar a otro calendario (.ics)</a>') +
       win('Antes de la clase', '<ul class="lista"><li>Te acabo de mandar el acceso por correo y por WhatsApp. Si no ves el correo, revisa Promociones o Spam y muévelo a Principal.</li><li>La clase empieza a la hora exacta y no se adelanta. Entra unos minutos antes.</li><li>Piensa en un negocio que conozcas que responda tarde a sus clientes. Lo vas a ver distinto después de la clase.</li></ul>')
     );
@@ -220,12 +242,12 @@
       marco('<h1>No encontramos la fecha de tu clase</h1>' + win('Qué hacer', '<p style="font-size:18px;margin:0 0 8px">Entra desde el link personal que te llegó por correo o WhatsApp. Si no lo tienes, reserva tu lugar otra vez.</p><a class="btn" href="' + url('masterclass') + '">Reservar mi lugar</a>'));
       return;
     }
-    var horaQA = /^\d{1,2}$/.test(qs.get('h') || '') ? +qs.get('h') : CFG.HORA_NY; // solo para pruebas de QA
-    var inicio = instanteNY(f.y, f.m, f.d, horaQA), finProg = inicio + DUR * 1000, cierreReplay = inicio + CFG.REPLAY_HORAS * 3600000;
+    var horaQA = /^\d{1,2}$/.test(qs.get('h') || '') ? +qs.get('h') : null; // solo para pruebas de QA
+    var inicio = inicioDe(f, horaQA), finProg = inicio + DUR * 1000, cierreReplay = inicio + CFG.REPLAY_HORAS * 3600000;
     var agendaSrc = CFG.AGENDA + (datos.nombre ? '?first_name=' + encodeURIComponent(datos.nombre) + '&email=' + encodeURIComponent(datos.correo || '') + '&phone=' + encodeURIComponent(datos.whatsapp || '') : '');
     marco(
       '<span class="estado" id="ev-estado"><span class="punto"></span> ' + (esReplay ? 'Repetición' : 'Clase programada') + '</span>' +
-      '<h1>' + (esReplay ? 'La clase completa, disponible 48 horas' : 'Tu clase: ' + esc(textoFecha(f)) + ', 7:00 PM Miami') + '</h1>' +
+      '<h1>' + (esReplay ? 'La clase completa, disponible 48 horas' : 'Tu clase: ' + esc(textoFecha(f)) + ', ' + textoHora(f) + ' Miami') + '</h1>' +
       '<p class="sub">' + (esReplay ? 'Es la misma clase que se transmitió a tu hora. Al final te explico el siguiente paso.' : 'Es una clase grabada en vivo que se transmite a esta hora, como una clase con horario. Si llegas tarde, entras en el minuto en que va.') + '</p>' +
       '<div class="sala" id="ev-sala"><div class="col">' +
       '<div class="video" id="ev-video"><div id="ev-yt"></div><div class="escudo oculto" id="ev-escudo" aria-hidden="true"></div><div class="tapa" id="ev-tapa"></div><div class="volver oculto" id="ev-volver"><p style="margin:0;font-size:17px">La clase sigue en vivo</p><button class="btn" type="button" id="ev-volver-btn">▶ Volver a la clase</button></div></div><div class="controles oculto" id="ev-ctrl"></div>' + (!esReplay && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent || '') ? '<p class="avisomovil">Deja esta pantalla abierta. Si sales a otra app, al volver te llevo al minuto en vivo.</p>' : '') +
@@ -398,7 +420,7 @@
   }
 
   // Exponer para pruebas (sin datos personales)
-  window.__evergreen = { calcularClase: calcularClase, instanteNY: instanteNY, parseFecha: parseFecha, textoFecha: textoFecha, iso: iso, aFuente: aFuente, aPrograma: aPrograma, DUR: DUR };
+  window.__evergreen = { versionAB: versionAB, inicioDe: inicioDe, textoHora: textoHora, dParam: dParam, calcularClase: calcularClase, instanteNY: instanteNY, parseFecha: parseFecha, textoFecha: textoFecha, iso: iso, aFuente: aFuente, aPrograma: aPrograma, DUR: DUR };
 
   if (PAGINA === 'prueba') { /* solo expone funciones */ }
   else if (PAGINA === 'confirmada') confirmada();
