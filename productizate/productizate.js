@@ -6,7 +6,7 @@
   if (window.__PZ_CARGADO) return; window.__PZ_CARGADO = true;
 
   var CFG = {
-    PRECIO: true,        // Diego autorizó precio público solo en esta página (inst. desde USD 3.000) — confirmar
+    PRECIO: true,        // Diego, 20-oct: precio único B2B USD 4.000 (B2C Operador 90 = USD 2.500). Solo en esta página.
     NOMBRES: true,       // Diego, 18-oct: testimonios con nombre + Trustpilot + link a la lista de resultados
     FORM_ID: 'KCMtD2zwUa8HFxJJFnti', // «Productízate · Sí o No» → al enviar redirige al calendario «Llamada B2B» de Diego
     MEDIA: 'https://dvetencourt.github.io/sa-media/productizate/',
@@ -151,7 +151,7 @@
         win('Menos costos', '<h3>Menos agencias, menos tareas manuales</h3><p>Lo que hoy le pagas a otros o haces tú a mano, lo hace tu equipo. Tu gente se dedica a lo que solo una persona puede hacer.</p>') +
         win('Te cambia la vida', '<h3>Te vas y el otro tú sigue trabajando</h3><p>Viajas, descansas o te dedicas a tus clientes, y tu negocio no se apaga. Esa es la libertad que se compra aquí.</p>') +
       '</div>' +
-      (CFG.PRECIO ? '<div style="margin-top:34px">' + win('Cuánto cuesta', '<div class="precio"><b>USD 3.000</b><span>la instalación arranca en</span></div><p style="font-size:18px;color:var(--gris);max-width:60ch">El monto exacto depende de tu negocio y lo defines en la llamada, antes de empezar. Sin sorpresas después.</p>') + '</div>' : '') +
+      (CFG.PRECIO ? '<div style="margin-top:34px">' + win('Cuánto cuesta', '<div class="precio"><b>USD 4.000</b><span>la instalación completa de tu cerebro</span></div><p style="font-size:18px;color:var(--gris);max-width:60ch">Un solo precio, el mismo para todos. Lo repasamos en la llamada antes de empezar. Sin sorpresas después.</p>') + '</div>' : '') +
     '</section>' +
 
     '<section class="blq"><span class="ceja">Preguntas de verdad</span><h2>Lo que nos preguntan antes de empezar.</h2>' +
