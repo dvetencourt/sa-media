@@ -3,6 +3,15 @@
    solucionesartificiales.com/productizate con un solo bloque: <div id="pzhost"></div><script src=".../productizate.js"></script>
    Brandbook SA: papel, tinta, cobalto, coral; ventanas con barra cobalto, bordes y sombras sólidas, sin radios. */
 (function () {
+  /* 22-oct: las landings de tráfico frío (/cerebro-clon, /cerebro-libertad, /cerebro-agencia) son clones de esta página en GHL.
+     Si la ruta es /cerebro-*, se carga cerebro.js en lugar de Productízate. */
+  if (/\/cerebro-/.test(location.pathname || '')) {
+    if (window.__PZ_A_CEREBRO) return; window.__PZ_A_CEREBRO = true;
+    var pz = document.getElementById('pzhost'); if (pz) pz.id = 'cbhost';
+    var sc = document.createElement('script'); sc.src = 'https://dvetencourt.github.io/sa-media/cerebro/cerebro.js?v=' + Date.now().toString().slice(0, 7);
+    (document.body || document.documentElement).appendChild(sc);
+    return;
+  }
   if (window.__PZ_CARGADO) return; window.__PZ_CARGADO = true;
 
   var CFG = {
