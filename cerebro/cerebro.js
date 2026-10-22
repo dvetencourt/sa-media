@@ -21,7 +21,7 @@
     MEDIA: 'https://dvetencourt.github.io/sa-media/cerebro/',
     // Video por ángulo. src vacío = sin video (la página se acomoda sola). formato: '9:16' o '16:9'.
     VIDEO: {
-      clon:     { src: '', poster: '', formato: '9:16', etiqueta: 'Diego · 1 minuto' },
+      clon:     { src: 'media/clon.mp4', poster: 'media/clon.jpg', formato: '9:16', etiqueta: 'Diego · 30 segundos' },
       libertad: { src: '', poster: '', formato: '9:16', etiqueta: 'Diego · 1 minuto' },
       agencia:  { src: '', poster: '', formato: '16:9', etiqueta: 'Diego · 1 minuto' }
     }
