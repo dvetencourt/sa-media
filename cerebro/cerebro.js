@@ -343,7 +343,7 @@
   }
 
   // Aplicación enviada: el formulario de GHL vive en un iframe y su píxel no queda atribuido al anuncio.
-  // Se marca desde esta página (que sí tiene el clic del anuncio): mensaje «set-sticky-contacts» del formulario, o segunda carga del iframe.
+  // Se marca desde esta página (que sí tiene el clic del anuncio): mensajes «set-sticky-contacts» o «modify-parent-url» que el formulario manda al enviarse (el iframe se recarga solo al iniciar, así que no se cuentan cargas).
   var enviada = false;
   function aplicacionEnviada(via) {
     if (enviada) return; enviada = true;
@@ -352,7 +352,7 @@
   window.addEventListener('message', function (ev) {
     if (!/leadconnectorhq\.com|msgsndr\.com|solucionesartificiales\.com/.test(ev.origin || '')) return;
     var t = ev.data; if (typeof t === 'string') { try { t = JSON.parse(t); } catch (e) { } }
-    if (Array.isArray(t) && t[0] === 'set-sticky-contacts') aplicacionEnviada('formulario');
+    if (Array.isArray(t) && (t[0] === 'set-sticky-contacts' || t[0] === 'modify-parent-url')) aplicacionEnviada(t[0]);
   });
 
   function montar() {
@@ -364,8 +364,6 @@
     try { document.title = P.doc; } catch (e) { }
     var s = document.createElement('script'); s.src = 'https://link.msgsndr.com/js/form_embed.js'; s.async = true; document.body.appendChild(s);
     fbv('CB_Vista');
-    var ifr = d.querySelector('.form iframe'), cargas = 0;
-    if (ifr) ifr.addEventListener('load', function () { cargas++; if (cargas >= 2) aplicacionEnviada('recarga'); });
     var v = d.querySelector('video'); if (v) v.addEventListener('play', function () { fbv('CB_Video'); }, { once: true });
     var botones = d.querySelectorAll('a[data-aplicar]');
     for (var i = 0; i < botones.length; i++) {
