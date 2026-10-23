@@ -219,6 +219,7 @@
     '#cb h2{font-size:clamp(28px,3.6vw,44px);line-height:1.1;margin:0 0 14px;text-wrap:balance}#cb h3{font-size:21px;line-height:1.2;margin:0 0 6px}' +
     '#cb .sub{font-size:clamp(18px,1.9vw,21px);color:var(--gris);max-width:40ch}' +
     '#cb .btn{display:inline-block;min-height:56px;border:2px solid var(--tinta);background:var(--cobalto);color:#fff;font-size:19px;font-weight:700;cursor:pointer;box-shadow:5px 5px 0 var(--tinta);text-align:center;text-decoration:none;padding:15px 26px;transition:transform .15s ease-out,box-shadow .15s ease-out}' +
+    '#cb .tp{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;background:var(--blanco);border:2px solid var(--tinta);box-shadow:8px 8px 0 var(--tinta);padding:20px;text-decoration:none;color:var(--tinta);transition:transform .15s ease-out,box-shadow .15s ease-out}#cb .tp:hover{transform:translate(-2px,-2px);box-shadow:10px 10px 0 var(--tinta)}#cb .tpl{display:grid;gap:4px}#cb .tpe{color:#00b67a;font-size:24px;letter-spacing:2px}#cb .tp b{font-size:22px}#cb .tp small{font-size:16px;color:var(--gris)}#cb .tpb{border:2px solid var(--tinta);background:var(--cobalto);color:#fff;font-weight:700;padding:12px 18px;box-shadow:4px 4px 0 var(--tinta)}#cb .btn.sec{background:var(--blanco);color:var(--tinta)}' +
     '#cb .btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--tinta)}#cb .btn.chico{min-height:44px;font-size:15px;padding:10px 16px;box-shadow:4px 4px 0 var(--tinta)}' +
     '#cb .hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:40px;align-items:center;margin-top:36px;animation:cbin .55s ease-out both}' +
     '#cb .hero.izq{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}#cb .hero.izq .vwin{order:-1}' +
@@ -274,7 +275,10 @@
       var c = PRUEBAS[k];
       return win(c.barra, '<div class="caso"><p class="quien">' + c.quien + '</p><p>' + c.texto + '</p><p class="f">' + c.f[A] + '</p><p class="q">Diego Vetencourt</p></div>');
     }).join('');
-    return '<section class="blq"><span class="ceja">Pruebas reales</span><h2>Esto ya está pasando.</h2><div class="tres">' + cajas + '</div></section>';
+    // Diego, 23-oct: también aquí, como en /productizate, el widget de Trustpilot y el link a la lista de resultados
+    var tp = '<a class="tp" style="margin-top:34px" href="https://www.trustpilot.com/review/solucionesartificiales.com" target="_blank" rel="noopener"><span class="tpl"><span class="tpe">★ ★ ★ ★ ★</span><b>Todas las reseñas en Trustpilot</b><small>Clientes y alumnos de Diego, sin filtro. Ábrelas y léelas tú.</small></span><span class="tpb">Ver reseñas →</span></a>' +
+      '<p style="margin-top:26px"><a class="btn sec" href="https://solucionesartificiales.com/resultados" target="_blank" rel="noopener">Ver la lista de resultados →</a></p>';
+    return '<section class="blq"><span class="ceja">Pruebas reales</span><h2>Esto ya está pasando.</h2><div class="tres">' + cajas + '</div>' + tp + '</section>';
   }
 
   function llevasHTML() {
